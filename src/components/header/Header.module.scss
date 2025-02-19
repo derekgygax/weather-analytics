@@ -1,4 +1,13 @@
 .header {
   background-color: $primary-color;
   height: 6rem;
+  display: flex;
+  align-items: center;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }

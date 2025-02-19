@@ -60,3 +60,16 @@ a {
     color: $secondary-color;
   }
 }
+
+input[type="text"] {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  outline: none;
+  border: none;
+
+  &:focus {
+    border: 2px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 119, 182, 0.5);
+  }
+}

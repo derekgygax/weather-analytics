@@ -63,16 +63,16 @@
     box-shadow: none;
   }
 
-  &.buttonGold {
-    background-color: $highlight-color;
+  &.buttonAccent {
+    background-color: $accent-color;
     color: $dark-text-color;
 
     &:hover {
-      background-color: color.adjust($highlight-color, $lightness: -10%);
+      background-color: color.adjust($accent-color, $lightness: -10%);
     }
 
     &:active {
-      background-color: color.adjust($highlight-color, $lightness: -15%);
+      background-color: color.adjust($accent-color, $lightness: -15%);
     }
 
     &:focus {
@@ -81,16 +81,16 @@
     }
   }
 
-  &.buttonGreen {
-    background-color: $primary-color; // Deep green button
+  &.buttonSecondary {
+    background-color: $secondary-color; // Deep green button
     color: $text-color;
 
     &:hover {
-      background-color: color.adjust($primary-color, $lightness: -10%);
+      background-color: color.adjust($secondary-color, $lightness: -10%);
     }
 
     &:active {
-      background-color: color.adjust($primary-color, $lightness: -15%);
+      background-color: color.adjust($secondary-color, $lightness: -15%);
       border-color: $secondary-color;
       box-shadow: 0 0 0 2px rgba(60, 91, 82, 0.5);
     }
