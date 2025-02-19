@@ -103,10 +103,22 @@
 }
 
 .disabledButton {
-  border: 1px solid $grey;
-  background-color: $light-grey;
-  color: black;
+  border: 1px solid $muted-text-color;
+  background-color: color.adjust($card-background, $lightness: -10%);
+  color: $text-color;
+  cursor: not-allowed;
+  opacity: 0.6;
+
+  &:hover {
+    background-color: color.adjust($card-background, $lightness: -15%);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($muted-text-color, 0.3);
+  }
 }
+
 
 .image {
   max-height: 100%;
