@@ -1,0 +1,15 @@
+// This for using functions for styling
+// Example
+
+// @mixin responsive-padding($padding-large, $padding-small) {
+//   padding: $padding-large;
+
+//   @media screen and (max-width: 768px) {
+//     padding: $padding-small;
+//   }
+// }
+
+// And is used like this in some scss file
+// .container {
+//   @include responsive-padding(2rem, 1rem);
+// }

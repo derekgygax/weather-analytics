@@ -1,0 +1,117 @@
+@use 'sass:color';
+
+// Global for defining the width of any container for the website based on media queries
+.containerFullPage {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  max-width: $page-max-width;
+  margin: 0 auto;
+
+  @media screen and (max-width: $large-width ) {
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+
+  @media screen and (max-width: $small-width ) {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+}
+
+// This is screen reader only for accessibility
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.button {
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  font-size: 1.15rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+  }
+
+  &:disabled {
+    background-color: color.adjust($background-color, $lightness: 10%);
+    color: color.adjust($text-color, $lightness: 30%);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &.buttonGold {
+    background-color: $highlight-color;
+    color: $dark-text-color;
+
+    &:hover {
+      background-color: color.adjust($highlight-color, $lightness: -10%);
+    }
+
+    &:active {
+      background-color: color.adjust($highlight-color, $lightness: -15%);
+    }
+
+    &:focus {
+      border-color: none;
+      box-shadow: 0 0 0 2px rgba(232, 142, 66, 0.5);
+    }
+  }
+
+  &.buttonGreen {
+    background-color: $primary-color; // Deep green button
+    color: $text-color;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+
+    &:active {
+      background-color: color.adjust($primary-color, $lightness: -15%);
+      border-color: $secondary-color;
+      box-shadow: 0 0 0 2px rgba(60, 91, 82, 0.5);
+    }
+
+    &:focus {
+      border-color: none;
+      box-shadow: 0 0 0 2px rgba(60, 91, 82, 0.5);
+    }
+  }
+}
+
+.disabledButton {
+  border: 1px solid $grey;
+  background-color: $light-grey;
+  color: black;
+}
+
+.image {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 1rem;
+}

@@ -1,0 +1,32 @@
+// Layout
+$page-max-width: 83rem;
+$header-height: 4.5rem;
+$footer-height: 3.5rem;
+
+// Media Queries
+$xs-width: 500px;
+$small-width: 640px;
+$medium-width: 768px;
+$large-width: 1024px;
+$xl-width: 1280px;
+$double-xl-width: 1536px;
+
+
+// Core Colors
+$primary-color: #0077b6; // Deep sky blue - main brand color (used for buttons, links, and key UI elements)
+$secondary-color: #00a8e8; // Brighter aqua blue - complements primary, used for UI accents and interactive elements
+$accent-color: #ffb703; // Warm golden yellow - highlights key areas like alerts, headers, and focus points
+$highlight-color: #f77f00; // Vivid orange - used for CTA buttons and important notifications
+$background-color: #f5faff; // Soft sky blue - subtle gradient background for a clean and airy feel
+
+
+// Neutral Colors
+$card-background: #ffffff; // Crisp white - keeps content readable and sections clean
+$text-color: #1e1e1e; // Dark charcoal gray - strong contrast for readability
+$muted-text-color: #5a5a5a; // Softer gray - for secondary content, timestamps, or labels
+$dark-text-color: #14213d; // Deep navy - used for strong contrast headers
+$dark-muted-text-color: #6c757d; // Mid-gray - for subtle UI elements like disabled text
+
+// Font Definitions
+$font-sans: 'Geist Sans', sans-serif;
+$font-mono: 'Geist Mono', monospace;
