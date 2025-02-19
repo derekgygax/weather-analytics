@@ -9,10 +9,16 @@ export const WeatherReducer = (state: Weather, action: WeatherReducerAction): We
     case "changeCurrent":
       return {
         current: action.payload,
-        searchHistory: {
-          ...state.searchHistory,
-          ...(state.current && { [state.current.city]: state.current })
-        }
+        // refresh the history, weather always changes
+        // searchHistory: {
+        //   ...state.searchHistory,
+        //   ...(state.current && { [state.current.city]: state.current })
+        // }
+        // most recent at front
+        searchHistory: [
+          ...(state.current ? [state.current.city] : []),
+          ...state.searchHistory
+        ]
       };
 
     default:

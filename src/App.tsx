@@ -8,7 +8,7 @@ import { WeatherReducer } from "./reducers/WeatherReducer"
 
 const INITIAL_WEATHER: Weather = {
   current: undefined,
-  searchHistory: {}
+  searchHistory: []
 }
 
 export const App = () => {

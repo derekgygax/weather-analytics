@@ -8,5 +8,6 @@ export interface CityWeather {
 
 export interface Weather {
   current: CityWeather | undefined;
-  searchHistory: Record<string, CityWeather>;
+  // searchHistory: Record<string, CityWeather>;
+  searchHistory: string[];
 }

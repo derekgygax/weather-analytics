@@ -15,8 +15,8 @@ export const HomePage = ({ weather }: HomePageProps) => {
       </PageSection>
       <PageSection>
         <h1>OLD</h1>
-        {Object.entries(weather.searchHistory).map(([key, value]) => {
-          return (<div>{key}{value.city}</div>)
+        {weather.searchHistory.map((city) => {
+          return (<div>{city}</div>)
         })}
       </PageSection>
     </main>
