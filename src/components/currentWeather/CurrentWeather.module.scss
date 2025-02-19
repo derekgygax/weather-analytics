@@ -1,3 +1,10 @@
 .title {
   text-align: center;
 }
+
+.weatherDetailsContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
