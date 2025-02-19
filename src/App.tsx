@@ -1,23 +1,53 @@
+import { useReducer, useEffect } from "react";
+
 // types
-import { Weather } from "./types/weatherTypes"
+import { Weather } from "./types/weatherTypes";
 
-import { Header } from "./components/header/Header"
-import { HomePage } from "./components/homePage/HomePage"
-import { useReducer } from "react"
-import { WeatherReducer } from "./reducers/WeatherReducer"
+// API
+import { getLocalWeather } from "./lib/weatherApi";
 
+// reducers
+import { WeatherReducer } from "./reducers/WeatherReducer";
+
+// Would use React router but there is only one page
+// pages
+import { HomePage } from "./pages/homePage/HomePage";
+
+// components
+import { Header } from "./components/header/Header";
+
+// reducer initial state
 const INITIAL_WEATHER: Weather = {
   current: undefined,
   searchHistory: []
 }
 
 export const App = () => {
-  const [weather, weatherDispacter] = useReducer(WeatherReducer, INITIAL_WEATHER);
+  const [weather, weatherDispatcher] = useReducer(WeatherReducer, INITIAL_WEATHER);
+
+  // Get the geolocation for where you are
+  useEffect(() => {
+    const getLocal = async () => {
+      try {
+        const { weatherData, city } = await getLocalWeather();
+        weatherDispatcher({
+          type: "changeCurrent",
+          payload: {
+            city: city,
+            weather: weatherData
+          }
+        });
+      } catch (error) {
+        // TODO DO SOMETHING HERE!!!
+      }
+    }
+    getLocal();
+  }, []);
 
   return (
     <>
       <Header
-        handleCityChange={weatherDispacter}
+        handleCityChange={weatherDispatcher}
       />
       <HomePage
         weather={weather}

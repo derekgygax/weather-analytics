@@ -1,4 +1,5 @@
 // layouts
+import { CurrentWeather } from "../../components/currentWeather/CurrentWeather";
 import { PageSection } from "../../layouts/pageSection/PageSection";
 import { Weather } from "../../types/weatherTypes";
 
@@ -7,17 +8,14 @@ interface HomePageProps {
 }
 
 export const HomePage = ({ weather }: HomePageProps) => {
+  console.log(weather);
 
   return (
     <main>
       <PageSection>
-        <div>{weather.current?.city}</div>
-      </PageSection>
-      <PageSection>
-        <h1>OLD</h1>
-        {weather.searchHistory.map((city) => {
-          return (<div>{city}</div>)
-        })}
+        <CurrentWeather
+          weather={weather.current ?? { city: "abal", weather: {} }}
+        />
       </PageSection>
     </main>
   )
