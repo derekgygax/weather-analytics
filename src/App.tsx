@@ -34,7 +34,7 @@ export const App = () => {
           type: "changeCurrent",
           payload: {
             city: city,
-            weather: weatherData
+            data: weatherData
           }
         });
       } catch (error) {

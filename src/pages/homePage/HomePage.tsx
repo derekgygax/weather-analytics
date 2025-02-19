@@ -14,7 +14,8 @@ export const HomePage = ({ weather }: HomePageProps) => {
     <main>
       <PageSection>
         <CurrentWeather
-          weather={weather.current ?? { city: "abal", weather: {} }}
+          city={weather.current?.city}
+          weather={weather.current?.data}
         />
       </PageSection>
     </main>
