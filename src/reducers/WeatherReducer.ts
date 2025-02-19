@@ -1,4 +1,4 @@
-import { Weather, CityWeather } from "../types/weatherTypes";
+import { WeatherState, CityWeather } from "../types/weatherTypes";
 
 export type WeatherReducerAction = {
   type: "changeCurrent";
@@ -8,13 +8,13 @@ export type WeatherReducerAction = {
   };
 }
 
-export const WeatherReducer = (state: Weather, action: WeatherReducerAction): Weather => {
+export const WeatherReducer = (state: WeatherState, action: WeatherReducerAction): WeatherState => {
   switch (action.type) {
     case "changeCurrent":
       return {
-        current: action.payload,
+        selectedCityWeather: action.payload,
         searchHistory: [
-          ...(state.current ? [state.current.city] : []),
+          ...(state.selectedCityWeather ? [state.selectedCityWeather.city] : []),
           ...state.searchHistory
         ]
       };

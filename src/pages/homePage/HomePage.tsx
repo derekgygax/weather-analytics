@@ -1,6 +1,6 @@
 
 // types
-import { Weather } from "../../types/weatherTypes";
+import { WeatherState } from "../../types/weatherTypes";
 
 // layouts
 import { PageSection } from "../../layouts/pageSection/PageSection";
@@ -11,18 +11,18 @@ import { CurrentWeather } from "../../components/currentWeather/CurrentWeather";
 // styles
 import styles from './HomePage.module.scss';
 interface HomePageProps {
-  weather: Weather;
+  weatherState: WeatherState;
 }
 
-export const HomePage = ({ weather }: HomePageProps) => {
+export const HomePage = ({ weatherState }: HomePageProps) => {
 
   return (
     <main>
       <PageSection>
-        {weather.current ? (
+        {weatherState.selectedCityWeather ? (
           <CurrentWeather
-            city={weather.current.city}
-            weather={weather.current.data}
+            city={weatherState.selectedCityWeather.city}
+            weather={weatherState.selectedCityWeather.data}
           />
         ) : (
           // TODO MAKE THIS BETTER

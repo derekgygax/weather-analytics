@@ -10,7 +10,8 @@ interface CurrentWeatherProps {
   weather: CityWeather
 }
 
-export const CurrentWeather = ({ city }: CurrentWeatherProps) => {
+export const CurrentWeather = ({ city, weather }: CurrentWeatherProps) => {
+  console.log(weather);
   return (
     <>
       <h1 className={styles.title}>{city}</h1>

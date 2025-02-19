@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useState } from "react";
 
 // types
-import { Weather } from "./types/weatherTypes";
+import { WeatherState } from "./types/weatherTypes";
 
 // API
 import { getLocalWeather } from "./lib/weatherApi";
@@ -18,8 +18,8 @@ import { Header } from "./components/header/Header";
 import { LoadingSpinner } from "./components/loadingSpinner/LoadingSpinner";
 
 // reducer initial state
-const INITIAL_WEATHER: Weather = {
-  current: undefined,
+const INITIAL_WEATHER: WeatherState = {
+  selectedCityWeather: undefined,
   searchHistory: []
 }
 
@@ -60,7 +60,7 @@ export const App = () => {
         />
       ) : (
         <HomePage
-          weather={weather}
+          weatherState={weather}
         />
       )}
     </>

@@ -77,8 +77,8 @@ export interface CityWeather {
   forecast: ForecastWeather
 }
 
-export interface Weather {
-  current: {
+export interface WeatherState {
+  selectedCityWeather: {
     city: string;
     data: CityWeather
   } | undefined;
