@@ -8,13 +8,14 @@ import { PageSection } from "../../layouts/pageSection/PageSection";
 // reducer
 import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
-
 // components
 import { CurrentWeather } from "../../components/currentWeather/CurrentWeather";
+import { Forecast } from "../../components/forecast/Forecast";
 
 // styles
 import styles from './HomePage.module.scss';
 import { SearchHistory } from "../../components/searchHistory/SearchHistory";
+
 interface HomePageProps {
   weatherState: WeatherState;
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
@@ -46,6 +47,9 @@ export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoad
             <h2 className={styles.noCurrent}>Please Search</h2>
           </>
         )}
+      </PageSection>
+      <PageSection>
+        <Forecast />
       </PageSection>
 
     </main>
