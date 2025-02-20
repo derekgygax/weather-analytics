@@ -33,7 +33,7 @@ export const App = () => {
       try {
         const { weatherData, city } = await getLocalWeather();
         weatherDispatcher({
-          type: "changeCurrent",
+          type: "changeCurrentCity",
           payload: {
             city: city,
             data: weatherData
@@ -52,7 +52,7 @@ export const App = () => {
   return (
     <>
       <Header
-        handleCityChange={weatherDispatcher}
+        weatherDispatcher={weatherDispatcher}
       />
       {loading ? (
         <LoadingSpinner
