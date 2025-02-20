@@ -46,6 +46,17 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
       value: `${currentWeather.main.humidity}%`
     }
   ];
+
+  const skyConditions = currentWeather.weather.length > 0 ? {
+    main: currentWeather.weather[0].main,
+    description: currentWeather.weather[0].description,
+    icon: currentWeather.weather[0].icon
+  } : {
+    main: "No Weather",
+    description: "It's pretty bleak without any weather",
+    icon: "50d"
+  };
+
   return (
     <>
       <Title
@@ -57,7 +68,9 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
           currentTemp={currentWeather.main.temp}
           metrics={tempMetrics}
         />
-        <SkyConditions />
+        <SkyConditions
+          conditions={skyConditions}
+        />
         <AtmosphericDetail />
       </section>
     </>

@@ -11,16 +11,17 @@ interface WeatherDetailsBoxProps {
   title: string;
   className?: string;
   icon?: React.ReactNode;
-  metrics: Metric[];
+  metrics?: Metric[];
+  children?: React.ReactNode;
 }
 
-export const WeatherDetailsBox = ({ title, className, icon, metrics }: WeatherDetailsBoxProps) => {
+export const WeatherDetailsBox = ({ title, className, icon, metrics, children }: WeatherDetailsBoxProps) => {
   return (
     <div className={classNames(styles.weatherDetailsBox, className)}>
       <h2 className={styles.title}>{title}</h2>
       {icon}
       <dl className={styles.metricList}>
-        {metrics.map((metric, index) => {
+        {metrics?.map((metric, index) => {
           return (
             <React.Fragment key={index}>
               <dt className={styles.metricLabel}>{metric.label}</dt>
@@ -29,6 +30,7 @@ export const WeatherDetailsBox = ({ title, className, icon, metrics }: WeatherDe
           )
         })}
       </dl>
+      {children}
     </div>
   );
 };

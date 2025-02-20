@@ -1,3 +1,7 @@
+const WORDS_EXCLUDED_FROM_TITLE_CASE = [
+  "a", "an", "and", "as", "at", "but", "by", "for", "if", "in",
+  "nor", "of", "on", "or", "so", "the", "to", "up", "yet", "with"
+];
 
 
 export const kelvinToFahrenheit = (kelvin: number): number => {
@@ -18,4 +22,20 @@ export const convertUnixToTime = (timestamp: number): string => {
 
 export const getWeatherIconUrl = (iconCode: string) => {
   return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+}
+
+export const capitalizeFirstLetter = (s: string): string => {
+  return s.charAt(0).toUpperCase() + s.slice(1)
+};
+
+export const capitalizeAsTitle = (s: string): string => {
+  let words = s.trim().split(/\s+/);
+  words = words.map((word: string) => {
+    if (WORDS_EXCLUDED_FROM_TITLE_CASE.includes(word.toLowerCase())) {
+      return word.toLowerCase();
+    } else {
+      return capitalizeFirstLetter(word);
+    }
+  })
+  return words.join(" ");
 }
