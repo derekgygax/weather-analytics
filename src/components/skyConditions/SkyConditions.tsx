@@ -7,6 +7,7 @@ import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetail
 
 // styles
 import styles from './SkyConditions.module.scss';
+import { SkyType } from "../../types/weatherTypes";
 
 const getSkyMeteoIconName = (isNight: boolean, conditions: { main: string }) => {
   if (conditions.main === "Clear") return isNight ? "clear-night" : 'clear-day';
@@ -29,30 +30,24 @@ const getSkyMeteoIconName = (isNight: boolean, conditions: { main: string }) => 
 
 interface SkyConditionsProps {
   isNight: boolean;
-  conditions: {
-    main: string;
-    description: string;
-    icon: string;
-  } | undefined;
+  skyConditions: SkyType
 }
 
-export const SkyConditions = ({ isNight, conditions }: SkyConditionsProps) => {
-  if (conditions) {
-    return (
-      <WeatherDetailsBox
-        title={conditions?.main}
-        icon={(
-          <img
-            // src={getWeatherIconUrl(conditions?.icon)}
-            src={getMeteoIconUrl(getSkyMeteoIconName(isNight, conditions))}
-            alt="Weather Icon"
-            className={styles.weatherIcon}
-          />
-        )}
-        metrics={[]}
-      >
-        <h4>{capitalizeAsTitle(conditions.description)}</h4>
-      </WeatherDetailsBox>
-    )
-  }
+export const SkyConditions = ({ isNight, skyConditions }: SkyConditionsProps) => {
+  return (
+    <WeatherDetailsBox
+      title={skyConditions.main}
+      icon={(
+        <img
+          // src={getWeatherIconUrl(conditions?.icon)}
+          src={getMeteoIconUrl(getSkyMeteoIconName(isNight, skyConditions))}
+          alt="Weather Icon"
+          className={styles.weatherIcon}
+        />
+      )}
+      metrics={[]}
+    >
+      <h4>{capitalizeAsTitle(skyConditions.description)}</h4>
+    </WeatherDetailsBox>
+  )
 }

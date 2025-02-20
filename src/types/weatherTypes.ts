@@ -16,17 +16,19 @@ export interface WindType {
   gust: number;
 }
 
+export interface SkyType {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
+
 export interface CurrentWeatherType {
   coord: {
     lon: number;
     lat: number;
   };
-  weather: {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  }[];
+  weather: SkyType[];
   main: TempHumidPressureType;
   wind: WindType;
   clouds: {
@@ -55,12 +57,7 @@ export interface ForecastWeatherType {
   list: {
     dt: number;
     main: TempHumidPressureType;
-    weather: {
-      id: number;
-      main: string;
-      description: string;
-      icon: string;
-    }[];
+    weather: SkyType[];
     wind: WindType;
     clouds: {
       all: number;
