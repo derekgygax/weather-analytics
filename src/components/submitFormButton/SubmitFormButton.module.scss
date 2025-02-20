@@ -4,4 +4,8 @@
 
 .submitFormButton__text {
   margin-right: 0.25rem;
+
+  @media screen and (max-width: $small-width ) {
+    display: none;
+  }
 }

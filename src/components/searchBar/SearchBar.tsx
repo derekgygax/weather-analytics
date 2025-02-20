@@ -21,9 +21,10 @@ interface SearchBarProps {
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
   isCityWeatherLoading: boolean;
   setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 }
 
-export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: SearchBarProps) => {
+export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading, className }: SearchBarProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -60,7 +61,7 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
   }
 
   return (
-    <form className={styles.form} ref={formRef} onSubmit={handleFormSubmit}>
+    <form className={classNames(styles.form, className)} ref={formRef} onSubmit={handleFormSubmit}>
       <input
         className={classNames(
           styles.input,

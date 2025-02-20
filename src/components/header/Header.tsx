@@ -23,6 +23,7 @@ export const Header = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeath
           weatherDispatcher={weatherDispatcher}
           isCityWeatherLoading={isCityWeatherLoading}
           setIsCityWeatherLoading={setIsCityWeatherLoading}
+          className={styles.searchBar}
         />
       </div>
     </header>

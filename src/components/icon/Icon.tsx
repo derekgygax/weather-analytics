@@ -3,7 +3,7 @@
 import styles from './Icon.module.scss';
 
 // icons
-import searchIcon from '@/public/icons/search.svg';
+import searchIcon from '../../assets/icons/search.svg';
 
 const icons: Record<string, string> = {
   search: searchIcon,
