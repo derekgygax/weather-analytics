@@ -3,9 +3,12 @@ const WORDS_EXCLUDED_FROM_TITLE_CASE = [
   "nor", "of", "on", "or", "so", "the", "to", "up", "yet", "with"
 ];
 
-
 export const kelvinToFahrenheit = (kelvin: number): number => {
   return Math.round((((kelvin - 273.15) * 9) / 5 + 32) * 10) / 10;
+};
+
+export const kelvinToCelsius = (kelvin: number): number => {
+  return Math.round((kelvin - 273.15) * 10) / 10;
 };
 
 export const formatTemperature = (temp: number, unit: "F" | "C" | "K") => {

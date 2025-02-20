@@ -39,7 +39,6 @@ export const TemperatureMetric = ({ currentTemp, humidity, metrics }: Temperatur
       title={title}
       icon={(
         <img
-          // src={getWeatherIconUrl(conditions?.icon)}
           src={getMeteoIconUrl(getTempMeteoIconName(currentTemp))}
           alt="Thermometer Icon"
           className={styles.weatherIcon}

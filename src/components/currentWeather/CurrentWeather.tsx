@@ -1,6 +1,6 @@
 
 // utiles
-import { kelvinToFahrenheit, formatTemperature, isNightTime, capitalizeAsTitle } from "../../lib/utils";
+import { kelvinToFahrenheit, formatTemperature, isNightTime, capitalizeAsTitle, kelvinToCelsius } from "../../lib/utils";
 
 // types
 import { Metric } from "../../types/commonTypes";
@@ -14,12 +14,18 @@ import { AtmosphericDetail } from "../atmosphericDetail/AtmosphericDetail";
 import { SkyConditions } from "../skyConditions/SkyConditions";
 import { TemperatureMetric } from "../temperatureMetric/TemperatureMetric";
 
-
 // styles
 import styles from './CurrentWeather.module.scss';
 
 const FAHRENHEIT_COUNTRIES: string[] = ["BS", "BZ", "KY", "PW", "US", "MM"];
 
+const getTempValueString = (tempK: number, country: string) => {
+  if (FAHRENHEIT_COUNTRIES.includes(country)) {
+    return formatTemperature(kelvinToFahrenheit(tempK), "F");
+  } else {
+    return formatTemperature(kelvinToCelsius(tempK), "C");
+  }
+}
 
 interface CurrentWeatherProps {
   city: string;
@@ -27,24 +33,23 @@ interface CurrentWeatherProps {
 }
 
 export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) => {
-  const degreeType = FAHRENHEIT_COUNTRIES.includes(currentWeather.sys.country) ? "F" : "C";
 
   const tempMetrics: Metric[] = [
     {
       label: "Temperature",
-      value: `${formatTemperature(kelvinToFahrenheit(currentWeather.main.temp), degreeType)}`
+      value: getTempValueString(currentWeather.main.temp, currentWeather.sys.country)
     },
     {
       label: "Feels Like",
-      value: `${formatTemperature(kelvinToFahrenheit(currentWeather.main.feels_like), degreeType)}`
+      value: getTempValueString(currentWeather.main.feels_like, currentWeather.sys.country)
     },
     {
       label: "High",
-      value: `${formatTemperature(kelvinToFahrenheit(currentWeather.main.temp_max), degreeType)}`
+      value: getTempValueString(currentWeather.main.temp_max, currentWeather.sys.country)
     },
     {
       label: "Low",
-      value: `${formatTemperature(kelvinToFahrenheit(currentWeather.main.temp_min), degreeType)}`
+      value: getTempValueString(currentWeather.main.temp_min, currentWeather.sys.country)
     },
     {
       label: "Humidity",

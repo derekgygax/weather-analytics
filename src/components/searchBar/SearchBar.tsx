@@ -1,4 +1,10 @@
+import classNames from "classnames";
+import { useRef, useState } from "react";
 
+// utils
+import { capitalizeAsTitle } from "../../lib/utils";
+
+// reducer
 import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // components
@@ -15,6 +21,8 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ handleCitySearch }: SearchBarProps) => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,31 +38,43 @@ export const SearchBar = ({ handleCitySearch }: SearchBarProps) => {
           data: weather
         }
       });
+
+      formRef.current?.reset();
+
     } catch (err) {
-      // TODO!!
-      // Need a good error component!
-      // TODO!!
-      // Need a good error component!
-      // TODO!!
-      // Need a good error component!
-      // TODO!!
-      // Need a good error component!
-      // TODO!!
-      // Need a good error component!
-      // TODO!!
-      // Need a good error component!
-      // TODO!!
-      // Need a good error component!
-      console.error(err instanceof Error ? err.message : "Failed to fetch weather data.");
+      const searchAgainMessage = "Please search again.";
+      if (typeof err === "object" && err !== null && "message" in err && "cod" in err) {
+        setErrorMessage(`${capitalizeAsTitle(err.message as string)}. ${searchAgainMessage}`);
+      } else {
+        setErrorMessage(`Failed to fetch weather data. ${searchAgainMessage}`);
+      }
+      console.error(err);
     }
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <input className={styles.input} type="text" name="city" required />
+    <form ref={formRef} onSubmit={handleFormSubmit}>
+      <input
+        className={classNames(
+          styles.input,
+          errorMessage ? styles.error : ""
+        )}
+        type="text"
+        name="city"
+        onClick={() => {
+          setErrorMessage(null);
+        }}
+        onChange={() => {
+          setErrorMessage(null);
+        }}
+        required
+      />
       <SubmitFormButton
         className={globalStyles.buttonAccent}
       />
+      {errorMessage && (
+        <p className={styles.errorMessage}>{errorMessage}</p>
+      )}
     </form>
   )
 }
