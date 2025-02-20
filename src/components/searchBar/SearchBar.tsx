@@ -47,6 +47,7 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
       setIsCityWeatherLoading(false);
 
     } catch (err) {
+      setIsCityWeatherLoading(false);
       const searchAgainMessage = "Please search again.";
       if (typeof err === "object" && err !== null && "message" in err && "cod" in err) {
         setErrorMessage(`${capitalizeAsTitle(err.message as string)}. ${searchAgainMessage}`);
