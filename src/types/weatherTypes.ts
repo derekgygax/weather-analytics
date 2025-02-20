@@ -23,6 +23,7 @@ export interface CurrentWeatherType {
   wind: {
     speed: number;
     deg: number;
+    gust: number;
   };
   clouds: {
     all: number;

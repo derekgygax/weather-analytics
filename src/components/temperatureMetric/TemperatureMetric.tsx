@@ -1,4 +1,6 @@
-import ThermostatIcon from "@mui/icons-material/DeviceThermostat";
+
+// utils
+import { getMeteoIconUrl } from "../../lib/utils";
 
 // types
 import { Metric } from "../../types/commonTypes";
@@ -6,19 +8,13 @@ import { Metric } from "../../types/commonTypes";
 // layouts
 import { WeatherDetailsBox } from "../weatherDetailsBox/WeatherDetailsBox"
 
-interface TemperatureMetricProps {
-  currentTemp: number;
-  humidity: number;
-  metrics: Metric[];
-}
+// styles
+import styles from './TemperatureMetric.module.scss';
 
-const getTempColor = (tempK: number) => {
-  if (tempK <= 260) return "#00f";
-  if (tempK <= 273) return "#3399ff";
-  if (tempK <= 288) return "#66ccff";
-  if (tempK <= 295) return "#ffcc00";
-  if (tempK <= 310) return "#ff5733";
-  return "#ff0000";
+const getTempMeteoIconName = (tempK: number) => {
+  if (tempK <= 273) return "thermometer-colder";
+  if (tempK <= 295) return "thermometer";
+  return "thermometer-warmer";
 };
 
 const getHotRating = (tempK: number): string => {
@@ -30,13 +26,24 @@ const getHotRating = (tempK: number): string => {
   return "Freezing";
 };
 
+interface TemperatureMetricProps {
+  currentTemp: number;
+  humidity: number;
+  metrics: Metric[];
+}
+
 export const TemperatureMetric = ({ currentTemp, humidity, metrics }: TemperatureMetricProps) => {
   const title = `${getHotRating(currentTemp)} and ${humidity > 50 ? "Wet" : "Dry"}`
   return (
     <WeatherDetailsBox
       title={title}
       icon={(
-        <ThermostatIcon style={{ fontSize: "2rem", color: getTempColor(currentTemp) }} />
+        <img
+          // src={getWeatherIconUrl(conditions?.icon)}
+          src={getMeteoIconUrl(getTempMeteoIconName(currentTemp))}
+          alt="Thermometer Icon"
+          className={styles.weatherIcon}
+        />
       )}
       metrics={metrics}
     />

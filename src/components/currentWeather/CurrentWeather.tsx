@@ -7,7 +7,7 @@ import { AtmosphericDetail } from "../atmosphericDetail/AtmosphericDetail";
 import { SkyConditions } from "../skyConditions/SkyConditions";
 import { TemperatureMetric } from "../temperatureMetric/TemperatureMetric";
 
-import { kelvinToFahrenheit, formatTemperature } from "../../lib/utils";
+import { kelvinToFahrenheit, formatTemperature, isNightTime } from "../../lib/utils";
 
 // styles
 import styles from './CurrentWeather.module.scss';
@@ -70,9 +70,14 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
           metrics={tempMetrics}
         />
         <SkyConditions
+          isNight={isNightTime(currentWeather.sys.sunrise, currentWeather.sys.sunset)}
           conditions={skyConditions}
         />
-        <AtmosphericDetail />
+        <AtmosphericDetail
+          sunrise={currentWeather.sys.sunrise}
+          sunset={currentWeather.sys.sunset}
+          wind={currentWeather.wind}
+        />
       </section>
     </>
   )

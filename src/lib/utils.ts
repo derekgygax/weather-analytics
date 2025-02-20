@@ -12,18 +12,6 @@ export const formatTemperature = (temp: number, unit: "F" | "C" | "K") => {
   return `${temp.toFixed(1)}${unit === "K" ? "" : "°"}${unit}`;
 };
 
-export const convertUnixToTime = (timestamp: number): string => {
-  return new Date(timestamp * 1000).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
-
-export const getWeatherIconUrl = (iconCode: string) => {
-  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-}
-
 export const capitalizeFirstLetter = (s: string): string => {
   return s.charAt(0).toUpperCase() + s.slice(1)
 };
@@ -39,3 +27,24 @@ export const capitalizeAsTitle = (s: string): string => {
   })
   return words.join(" ");
 }
+
+export const convertUnixToTime = (timestamp: number): string => {
+  return new Date(timestamp * 1000).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
+export const getWeatherIconUrl = (iconCode: string) => {
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+}
+
+export const getMeteoIconUrl = (icon_name: string) => {
+  return `https://bmcdn.nl/assets/weather-icons/v3.0/fill/svg/${icon_name}.svg`;
+}
+
+export const isNightTime = (sunrise: number, sunset: number) => {
+  const now = Math.floor(Date.now() / 1000);
+  return now < sunrise || now > sunset;
+};
