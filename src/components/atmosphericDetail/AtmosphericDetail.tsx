@@ -3,7 +3,7 @@
 import { convertUnixToTime, convertUnixToTimeAtLocation, getMeteoIconUrl } from "../../lib/utils";
 
 // components
-import { WeatherDetailsBox } from "../weatherDetailsBox/WeatherDetailsBox";
+import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetailsBox";
 
 // styles
 import styles from './AtmosphericDetail.module.scss';

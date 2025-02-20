@@ -67,6 +67,7 @@ export interface ForecastWeatherType {
     wind: {
       speed: number;
       deg: number;
+      gust: number;
     };
     clouds: {
       all: number;

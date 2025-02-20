@@ -29,7 +29,6 @@ export const SearchHistory = ({ currentCity, searchHistory, weatherDispatcher, s
     setIsCityWeatherLoading(true);
     try {
       const cityWeather: CityWeatherType = await getWeatherByCity(history);
-      console.log(cityWeather);
 
       weatherDispatcher({
         type: "changeCurrentCity",

@@ -6,7 +6,7 @@ import { getMeteoIconUrl } from "../../lib/utils";
 import { Metric } from "../../types/commonTypes";
 
 // layouts
-import { WeatherDetailsBox } from "../weatherDetailsBox/WeatherDetailsBox"
+import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetailsBox"
 
 // styles
 import styles from './TemperatureMetric.module.scss';

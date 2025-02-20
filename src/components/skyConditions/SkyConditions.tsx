@@ -3,7 +3,7 @@
 import { capitalizeAsTitle, getMeteoIconUrl } from "../../lib/utils";
 
 // layouts
-import { WeatherDetailsBox } from "../weatherDetailsBox/WeatherDetailsBox"
+import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetailsBox"
 
 // styles
 import styles from './SkyConditions.module.scss';
