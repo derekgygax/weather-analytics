@@ -17,7 +17,7 @@ interface HomePageProps {
 export const HomePage = ({ weatherState }: HomePageProps) => {
 
   return (
-    <main>
+    <main className={styles.main}>
       <PageSection>
         {weatherState.selectedCityWeather ? (
           <CurrentWeather

@@ -7,13 +7,7 @@
   border-top: 5px solid $primary-color;
   transition: all 0.3s ease;
 
-  max-width: calc(65rem / 3);
-  min-width: 12rem;
-
-  flex: 1 1 12rem;
-  /* ✅ Allows boxes to grow but not shrink below 12rem */
-  flex-shrink: 0;
-
+  width: 20rem;
 
   &:hover {
     transform: translateY(-3px);
