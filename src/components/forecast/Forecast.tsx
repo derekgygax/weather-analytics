@@ -1,6 +1,6 @@
 
 // types
-import { ForecastWeatherType, WeatherState } from '../../types/weatherTypes';
+import { WeatherState } from '../../types/weatherTypes';
 
 // utils
 import { capitalizeAsTitle } from '../../lib/utils';
@@ -21,7 +21,7 @@ interface ForecastProps {
   setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Forecast = ({ weatherState, weatherDispatcher, setIsCityWeatherLoading }: ForecastProps) => {
+export const Forecast = ({ weatherState }: ForecastProps) => {
   return (
     <>
       <Title
