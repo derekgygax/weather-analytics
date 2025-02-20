@@ -28,11 +28,11 @@ const getHotRating = (tempK: number): string => {
 };
 
 interface TemperatureMetricProps {
-  country: string;
+  localCountry: string;
   tempHumidPressureInfo: TempHumidPressureType;
 }
 
-export const TemperatureMetric = ({ country, tempHumidPressureInfo }: TemperatureMetricProps) => {
+export const TemperatureMetric = ({ localCountry, tempHumidPressureInfo }: TemperatureMetricProps) => {
   const humidity = tempHumidPressureInfo.humidity;
 
   const title = `${getHotRating(tempHumidPressureInfo.temp)} and ${tempHumidPressureInfo.humidity > 50 ? "Wet" : tempHumidPressureInfo.humidity > 25 ? "Moist" : "Dry"}`
@@ -40,19 +40,19 @@ export const TemperatureMetric = ({ country, tempHumidPressureInfo }: Temperatur
   const metrics: Metric[] = [
     {
       label: "Temperature",
-      value: getTempValueString(tempHumidPressureInfo.temp, country)
+      value: getTempValueString(tempHumidPressureInfo.temp, localCountry)
     },
     {
       label: "Feels Like",
-      value: getTempValueString(tempHumidPressureInfo.feels_like, country)
+      value: getTempValueString(tempHumidPressureInfo.feels_like, localCountry)
     },
     {
       label: "High",
-      value: getTempValueString(tempHumidPressureInfo.temp_max, country)
+      value: getTempValueString(tempHumidPressureInfo.temp_max, localCountry)
     },
     {
       label: "Low",
-      value: getTempValueString(tempHumidPressureInfo.temp_min, country)
+      value: getTempValueString(tempHumidPressureInfo.temp_min, localCountry)
     },
     {
       label: "Humidity",

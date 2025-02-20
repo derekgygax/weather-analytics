@@ -20,7 +20,8 @@ import { LoadingSpinner } from "./components/loadingSpinner/LoadingSpinner";
 // reducer initial state
 const INITIAL_WEATHER: WeatherState = {
   selectedCityWeather: undefined,
-  searchHistory: []
+  searchHistory: [],
+  localCountry: "US"
 }
 
 export const App = () => {
@@ -33,10 +34,11 @@ export const App = () => {
       try {
         const { weatherData, city } = await getLocalWeather();
         weatherDispatcher({
-          type: "changeCurrentCity",
+          type: "setLocalCity",
           payload: {
             city: city,
-            data: weatherData
+            data: weatherData,
+            country: weatherData.current.sys.country
           }
         });
       } catch (error) {

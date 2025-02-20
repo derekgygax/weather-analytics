@@ -78,5 +78,6 @@ export interface WeatherState {
   } | undefined;
   // searchHistory: Record<string, CityWeatherType>;
   searchHistory: string[];
+  localCountry: string;
 }
 

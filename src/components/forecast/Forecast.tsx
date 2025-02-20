@@ -1,14 +1,27 @@
 
+// types
+import { ForecastWeatherType, WeatherState } from '../../types/weatherTypes';
+
 // utils
 import { capitalizeAsTitle } from '../../lib/utils';
+
+// reducer
+import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // layouts
 import { Title } from '../../layouts/title/Title';
 
 // styles
 import styles from './Forecast.module.scss';
+import { LineChart } from '../lineChart/LineChart';
 
-export const Forecast = () => {
+interface ForecastProps {
+  weatherState: WeatherState;
+  weatherDispatcher: React.Dispatch<WeatherReducerAction>;
+  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Forecast = ({ weatherState, weatherDispatcher, setIsCityWeatherLoading }: ForecastProps) => {
   return (
     <>
       <Title
@@ -17,9 +30,18 @@ export const Forecast = () => {
         title={capitalizeAsTitle("Forecast")}
         className={styles.forecastTitle}
       />
-      <section className={styles.chartsContainer}>
-
-      </section>
+      {/* TODO FX THIS!!!!
+      THE ERROR CATCHING!! */}
+      {weatherState.selectedCityWeather ? (
+        <section className={styles.chartsContainer}>
+          <LineChart
+            currentCityForecast={weatherState.selectedCityWeather.data.forecast}
+          />
+        </section>
+      ) : (
+        // TODO FIXXX
+        <h1>WHAT!!! FIX!!</h1>
+      )}
     </>
   )
 }

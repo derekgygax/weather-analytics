@@ -17,11 +17,12 @@ import { TemperatureMetric } from "../temperatureMetric/TemperatureMetric";
 import styles from './CurrentWeather.module.scss';
 
 interface CurrentWeatherProps {
+  localCountry: string;
   city: string;
   currentWeather: CurrentWeatherType
 }
 
-export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) => {
+export const CurrentWeather = ({ localCountry, city, currentWeather }: CurrentWeatherProps) => {
 
   return (
     <>
@@ -32,7 +33,7 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
       />
       <section className={styles.weatherDetailsContainer}>
         <TemperatureMetric
-          country={currentWeather.sys.country}
+          localCountry={localCountry}
           tempHumidPressureInfo={currentWeather.main}
         />
         <SkyConditions

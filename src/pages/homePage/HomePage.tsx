@@ -37,6 +37,7 @@ export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoad
       <PageSection>
         {weatherState.selectedCityWeather ? (
           <CurrentWeather
+            localCountry={weatherState.localCountry}
             city={weatherState.selectedCityWeather.city}
             currentWeather={weatherState.selectedCityWeather.data.current}
           />
@@ -49,7 +50,19 @@ export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoad
         )}
       </PageSection>
       <PageSection>
-        <Forecast />
+        {weatherState.selectedCityWeather ? (
+          <Forecast
+            weatherState={weatherState}
+            weatherDispatcher={weatherDispatcher}
+            setIsCityWeatherLoading={setIsCityWeatherLoading}
+          />
+        ) : (
+          // TODO MAKE THIS BETTER
+          <>
+            <h1 className={styles.noCurrent}>The Current Location Did Not Load</h1>
+            <h2 className={styles.noCurrent}>Please Search</h2>
+          </>
+        )}
       </PageSection>
 
     </main>
