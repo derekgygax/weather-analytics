@@ -66,6 +66,7 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
       <section className={styles.weatherDetailsContainer}>
         <TemperatureMetric
           currentTemp={currentWeather.main.temp}
+          humidity={currentWeather.main.humidity}
           metrics={tempMetrics}
         />
         <SkyConditions
