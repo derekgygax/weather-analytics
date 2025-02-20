@@ -1,6 +1,6 @@
 
 // utils
-import { convertUnixToTime, getMeteoIconUrl } from "../../lib/utils";
+import { convertUnixToTime, convertUnixToTimeAtLocation, getMeteoIconUrl } from "../../lib/utils";
 
 // components
 import { WeatherDetailsBox } from "../weatherDetailsBox/WeatherDetailsBox";
@@ -35,6 +35,7 @@ const getAtmosphericMeteoIconName = (sunrise: number, sunset: number, wind: { de
 interface AtmosphericDetailProps {
   sunrise: number;
   sunset: number;
+  timezoneOffset: number;
   wind: {
     deg: number;
     gust: number;
@@ -42,7 +43,7 @@ interface AtmosphericDetailProps {
   };
 }
 
-export const AtmosphericDetail = ({ sunrise, sunset, wind }: AtmosphericDetailProps) => {
+export const AtmosphericDetail = ({ sunrise, sunset, timezoneOffset, wind }: AtmosphericDetailProps) => {
 
   const title = `${getBrightnessThought(sunrise, sunset)} and ${getWindyIdea(wind)}`;
 
@@ -59,11 +60,11 @@ export const AtmosphericDetail = ({ sunrise, sunset, wind }: AtmosphericDetailPr
       metrics={[
         {
           label: "Sunrise",
-          value: convertUnixToTime(sunrise)
+          value: timezoneOffset ? convertUnixToTimeAtLocation(sunrise, timezoneOffset) : convertUnixToTime(sunrise)
         },
         {
           label: "Sunset",
-          value: convertUnixToTime(sunset)
+          value: timezoneOffset ? convertUnixToTimeAtLocation(sunset, timezoneOffset) : convertUnixToTime(sunset)
         },
         {
           label: "Wind Speed",

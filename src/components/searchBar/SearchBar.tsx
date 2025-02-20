@@ -11,6 +11,7 @@ import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 import { getWeatherByCity } from "../../lib/weatherApi";
 import { CityWeatherType } from "../../types/weatherTypes";
 import { SubmitFormButton } from "../submitFormButton/SubmitFormButton"
+import { Icon } from "../icon/Icon";
 
 // styles
 import styles from './SearchBar.module.scss';
@@ -59,7 +60,7 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
   }
 
   return (
-    <form ref={formRef} onSubmit={handleFormSubmit}>
+    <form className={styles.form} ref={formRef} onSubmit={handleFormSubmit}>
       <input
         className={classNames(
           styles.input,
@@ -78,6 +79,12 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
       />
       <SubmitFormButton
         className={globalStyles.buttonAccent}
+        text="Search"
+        icon={
+          <div className={styles.searchIcon}>
+            <Icon id="search" alt="search" tooltip="Search" />
+          </div>
+        }
         disabled={isCityWeatherLoading}
       />
       {errorMessage && (

@@ -39,6 +39,24 @@ export const convertUnixToTime = (timestamp: number): string => {
   });
 };
 
+export const convertUnixToTimeAtLocation = (timestamp: number, timezoneOffset: number): string => {
+  let adjustedTimestamp = timestamp + timezoneOffset;
+
+  if (timezoneOffset === 0) {
+    const date = new Date(timestamp * 1000);
+    const isDST = (new Date(date.getUTCFullYear(), 5, 1)).getTimezoneOffset() < 0;
+    adjustedTimestamp += isDST ? 3600 : 0;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "UTC",
+  }).format(new Date(adjustedTimestamp * 1000));
+};
+
+
 export const getWeatherIconUrl = (iconCode: string) => {
   return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 }

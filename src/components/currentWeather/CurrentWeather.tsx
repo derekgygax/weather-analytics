@@ -87,6 +87,7 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
         <AtmosphericDetail
           sunrise={currentWeather.sys.sunrise}
           sunset={currentWeather.sys.sunset}
+          timezoneOffset={currentWeather.timezone}
           wind={currentWeather.wind}
         />
       </section>

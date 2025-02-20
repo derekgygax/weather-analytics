@@ -14,7 +14,7 @@ const getSkyMeteoIconName = (isNight: boolean, conditions: { main: string }) => 
   if (conditions.main === "Rain") return "overcast-rain";
   if (conditions.main === "Drizzle") return "overcast-drizzle";
   if (conditions.main === "Thunderstorm") return "thunderstorms";
-  if (conditions.main === "Snow") return "snowy";
+  if (conditions.main === "Snow") return "snow";
   if (conditions.main === "Mist") return "mist";
   if (conditions.main === "Haze") return "haze";
   if (conditions.main === "Fog") return "fog";

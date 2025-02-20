@@ -33,6 +33,8 @@ export interface CurrentWeatherType {
     sunrise: number;
     sunset: number;
   };
+  // timezone offset from UTC
+  timezone: number;
   // city name
   name: string;
 }
