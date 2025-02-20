@@ -25,7 +25,7 @@ const INITIAL_WEATHER: WeatherState = {
 
 export const App = () => {
   const [weather, weatherDispatcher] = useReducer(WeatherReducer, INITIAL_WEATHER);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isCityWeatherLoading, setIsCityWeatherLoading] = useState<boolean>(true);
 
   // Get the geolocation for where you are
   useEffect(() => {
@@ -43,7 +43,7 @@ export const App = () => {
         // TODO do more!
         console.error(error);
       } finally {
-        setLoading(false)
+        setIsCityWeatherLoading(false)
       }
     }
     getLocal();
@@ -53,10 +53,12 @@ export const App = () => {
     <>
       <Header
         weatherDispatcher={weatherDispatcher}
+        isCityWeatherLoading={isCityWeatherLoading}
+        setIsCityWeatherLoading={setIsCityWeatherLoading}
       />
-      {loading ? (
+      {isCityWeatherLoading ? (
         <LoadingSpinner
-          loadingText="Retrieving Current City Weather"
+          loadingText="Retrieving City Weather"
         />
       ) : (
         <HomePage

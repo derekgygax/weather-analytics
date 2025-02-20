@@ -18,16 +18,17 @@ import globalStyles from '@/styles/globals.module.scss';
 
 interface SearchBarProps {
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
+  isCityWeatherLoading: boolean;
+  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SearchBar = ({ weatherDispatcher }: SearchBarProps) => {
+export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: SearchBarProps) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsCityWeatherLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const city = formData.get("city") as string;
@@ -43,7 +44,7 @@ export const SearchBar = ({ weatherDispatcher }: SearchBarProps) => {
       });
 
       formRef.current?.reset();
-      setIsLoading(false);
+      setIsCityWeatherLoading(false);
 
     } catch (err) {
       const searchAgainMessage = "Please search again.";
@@ -75,7 +76,7 @@ export const SearchBar = ({ weatherDispatcher }: SearchBarProps) => {
       />
       <SubmitFormButton
         className={globalStyles.buttonAccent}
-        disabled={isLoading}
+        disabled={isCityWeatherLoading}
       />
       {errorMessage && (
         <p className={styles.errorMessage}>{errorMessage}</p>
