@@ -19,4 +19,9 @@
 
 .form {
   display: flex;
+  flex-direction: column;
+}
+
+.formElements {
+  display: flex;
 }

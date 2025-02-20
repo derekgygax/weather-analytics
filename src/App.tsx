@@ -62,6 +62,8 @@ export const App = () => {
         />
       ) : (
         <HomePage
+          weatherDispatcher={weatherDispatcher}
+          setIsCityWeatherLoading={setIsCityWeatherLoading}
           weatherState={weather}
         />
       )}

@@ -36,12 +36,12 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
     const city = formData.get("city") as string;
 
     try {
-      const weather: CityWeatherType = await getWeatherByCity(city);
+      const cityWeather: CityWeatherType = await getWeatherByCity(city);
       weatherDispatcher({
         type: "changeCurrentCity",
         payload: {
           city: city,
-          data: weather
+          data: cityWeather
         }
       });
 
@@ -62,32 +62,34 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
 
   return (
     <form className={classNames(styles.form, className)} ref={formRef} onSubmit={handleFormSubmit}>
-      <input
-        className={classNames(
-          styles.input,
-          errorMessage ? styles.error : ""
-        )}
-        type="text"
-        name="city"
-        placeholder="Enter City Name"
-        onClick={() => {
-          setErrorMessage(null);
-        }}
-        onChange={() => {
-          setErrorMessage(null);
-        }}
-        required
-      />
-      <SubmitFormButton
-        className={globalStyles.buttonAccent}
-        text="Search"
-        icon={
-          <div className={styles.searchIcon}>
-            <Icon id="search" alt="search" tooltip="Search" />
-          </div>
-        }
-        disabled={isCityWeatherLoading}
-      />
+      <div className={styles.formElements}>
+        <input
+          className={classNames(
+            styles.input,
+            errorMessage ? styles.error : ""
+          )}
+          type="text"
+          name="city"
+          placeholder="Enter City Name"
+          onClick={() => {
+            setErrorMessage(null);
+          }}
+          onChange={() => {
+            setErrorMessage(null);
+          }}
+          required
+        />
+        <SubmitFormButton
+          className={globalStyles.buttonAccent}
+          text="Search"
+          icon={
+            <div className={styles.searchIcon}>
+              <Icon id="search" alt="search" tooltip="Search" />
+            </div>
+          }
+          disabled={isCityWeatherLoading}
+        />
+      </div>
       {errorMessage && (
         <p className={styles.errorMessage}>{errorMessage}</p>
       )}
