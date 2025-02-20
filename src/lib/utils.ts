@@ -3,6 +3,8 @@ const WORDS_EXCLUDED_FROM_TITLE_CASE = [
   "nor", "of", "on", "or", "so", "the", "to", "up", "yet", "with"
 ];
 
+const FAHRENHEIT_COUNTRIES: string[] = ["BS", "BZ", "KY", "PW", "US", "MM"];
+
 export const kelvinToFahrenheit = (kelvin: number): number => {
   return Math.round((((kelvin - 273.15) * 9) / 5 + 32) * 10) / 10;
 };
@@ -14,6 +16,14 @@ export const kelvinToCelsius = (kelvin: number): number => {
 export const formatTemperature = (temp: number, unit: "F" | "C" | "K") => {
   return `${temp.toFixed(1)}${unit === "K" ? "" : "°"}${unit}`;
 };
+
+export const getTempValueString = (tempK: number, country: string) => {
+  if (FAHRENHEIT_COUNTRIES.includes(country)) {
+    return formatTemperature(kelvinToFahrenheit(tempK), "F");
+  } else {
+    return formatTemperature(kelvinToCelsius(tempK), "C");
+  }
+}
 
 export const capitalizeFirstLetter = (s: string): string => {
   return s.charAt(0).toUpperCase() + s.slice(1)

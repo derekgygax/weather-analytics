@@ -1,6 +1,21 @@
 
 export type WeatherType = "weather" | "forecast";
 
+export interface TempHumidPressureType {
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  pressure: number;
+  humidity: number;
+}
+
+export interface WindType {
+  speed: number;
+  deg: number;
+  gust: number;
+}
+
 export interface CurrentWeatherType {
   coord: {
     lon: number;
@@ -12,19 +27,8 @@ export interface CurrentWeatherType {
     description: string;
     icon: string;
   }[];
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-  };
-  wind: {
-    speed: number;
-    deg: number;
-    gust: number;
-  };
+  main: TempHumidPressureType;
+  wind: WindType;
   clouds: {
     all: number;
   };
@@ -50,25 +54,14 @@ export interface ForecastWeatherType {
   };
   list: {
     dt: number;
-    main: {
-      temp: number;
-      feels_like: number;
-      temp_min: number;
-      temp_max: number;
-      pressure: number;
-      humidity: number;
-    };
+    main: TempHumidPressureType;
     weather: {
       id: number;
       main: string;
       description: string;
       icon: string;
     }[];
-    wind: {
-      speed: number;
-      deg: number;
-      gust: number;
-    };
+    wind: WindType;
     clouds: {
       all: number;
     };

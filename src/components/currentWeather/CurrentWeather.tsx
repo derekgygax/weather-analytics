@@ -76,9 +76,8 @@ export const CurrentWeather = ({ city, currentWeather }: CurrentWeatherProps) =>
       />
       <section className={styles.weatherDetailsContainer}>
         <TemperatureMetric
-          currentTemp={currentWeather.main.temp}
-          humidity={currentWeather.main.humidity}
-          metrics={tempMetrics}
+          country={currentWeather.sys.country}
+          tempHumidPressureInfo={currentWeather.main}
         />
         <SkyConditions
           isNight={isNightTime(currentWeather.sys.sunrise, currentWeather.sys.sunset)}

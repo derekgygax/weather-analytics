@@ -1,9 +1,10 @@
 
 // utils
-import { getMeteoIconUrl } from "../../lib/utils";
+import { getMeteoIconUrl, getTempValueString } from "../../lib/utils";
 
 // types
 import { Metric } from "../../types/commonTypes";
+import { TempHumidPressureType } from "../../types/weatherTypes";
 
 // layouts
 import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetailsBox"
@@ -27,19 +28,44 @@ const getHotRating = (tempK: number): string => {
 };
 
 interface TemperatureMetricProps {
-  currentTemp: number;
-  humidity: number;
-  metrics: Metric[];
+  country: string;
+  tempHumidPressureInfo: TempHumidPressureType;
 }
 
-export const TemperatureMetric = ({ currentTemp, humidity, metrics }: TemperatureMetricProps) => {
-  const title = `${getHotRating(currentTemp)} and ${humidity > 50 ? "Wet" : "Dry"}`
+export const TemperatureMetric = ({ country, tempHumidPressureInfo }: TemperatureMetricProps) => {
+  const humidity = tempHumidPressureInfo.humidity;
+
+  const title = `${getHotRating(tempHumidPressureInfo.temp)} and ${tempHumidPressureInfo.humidity > 50 ? "Wet" : tempHumidPressureInfo.humidity > 25 ? "Moist" : "Dry"}`
+
+  const metrics: Metric[] = [
+    {
+      label: "Temperature",
+      value: getTempValueString(tempHumidPressureInfo.temp, country)
+    },
+    {
+      label: "Feels Like",
+      value: getTempValueString(tempHumidPressureInfo.feels_like, country)
+    },
+    {
+      label: "High",
+      value: getTempValueString(tempHumidPressureInfo.temp_max, country)
+    },
+    {
+      label: "Low",
+      value: getTempValueString(tempHumidPressureInfo.temp_min, country)
+    },
+    {
+      label: "Humidity",
+      value: `${humidity}%`
+    }
+  ];
+
   return (
     <WeatherDetailsBox
       title={title}
       icon={(
         <img
-          src={getMeteoIconUrl(getTempMeteoIconName(currentTemp))}
+          src={getMeteoIconUrl(getTempMeteoIconName(tempHumidPressureInfo.temp))}
           alt="Thermometer Icon"
           className={styles.weatherIcon}
         />
