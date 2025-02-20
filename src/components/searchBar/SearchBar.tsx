@@ -45,7 +45,7 @@ export const SearchBar = ({ handleCitySearch }: SearchBarProps) => {
       // Need a good error component!
       // TODO!!
       // Need a good error component!
-      console.log(err instanceof Error ? err.message : "Failed to fetch weather data.");
+      console.error(err instanceof Error ? err.message : "Failed to fetch weather data.");
     }
   }
 
