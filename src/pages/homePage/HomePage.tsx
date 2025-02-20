@@ -22,7 +22,7 @@ export const HomePage = ({ weatherState }: HomePageProps) => {
         {weatherState.selectedCityWeather ? (
           <CurrentWeather
             city={weatherState.selectedCityWeather.city}
-            weather={weatherState.selectedCityWeather.data}
+            currentWeather={weatherState.selectedCityWeather.data.current}
           />
         ) : (
           // TODO MAKE THIS BETTER

@@ -1,10 +1,10 @@
-import { WeatherState, CityWeather } from "../types/weatherTypes";
+import { WeatherState, CityWeatherType } from "../types/weatherTypes";
 
 export type WeatherReducerAction = {
   type: "changeCurrent";
   payload: {
     city: string;
-    data: CityWeather
+    data: CityWeatherType
   };
 }
 

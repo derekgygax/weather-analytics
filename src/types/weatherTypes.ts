@@ -1,7 +1,7 @@
 
 export type WeatherType = "weather" | "forecast";
 
-export interface CurrentWeather {
+export interface CurrentWeatherType {
   coord: {
     lon: number;
     lat: number;
@@ -36,7 +36,7 @@ export interface CurrentWeather {
   name: string;
 }
 
-export interface ForecastWeather {
+export interface ForecastWeatherType {
   city: {
     name: string;
     country: string;
@@ -72,17 +72,17 @@ export interface ForecastWeather {
   }[];
 }
 
-export interface CityWeather {
-  current: CurrentWeather;
-  forecast: ForecastWeather
+export interface CityWeatherType {
+  current: CurrentWeatherType;
+  forecast: ForecastWeatherType
 }
 
 export interface WeatherState {
   selectedCityWeather: {
     city: string;
-    data: CityWeather
+    data: CityWeatherType
   } | undefined;
-  // searchHistory: Record<string, CityWeather>;
+  // searchHistory: Record<string, CityWeatherType>;
   searchHistory: string[];
 }
 

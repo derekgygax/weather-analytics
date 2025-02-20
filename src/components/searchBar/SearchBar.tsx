@@ -3,7 +3,7 @@ import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // components
 import { getWeatherByCity } from "../../lib/weatherApi";
-import { CityWeather } from "../../types/weatherTypes";
+import { CityWeatherType } from "../../types/weatherTypes";
 import { SubmitFormButton } from "../submitFormButton/SubmitFormButton"
 
 // styles
@@ -22,7 +22,7 @@ export const SearchBar = ({ handleCitySearch }: SearchBarProps) => {
     const city = formData.get("city") as string;
 
     try {
-      const weather: CityWeather = await getWeatherByCity(city);
+      const weather: CityWeatherType = await getWeatherByCity(city);
       handleCitySearch({
         type: "changeCurrent",
         payload: {

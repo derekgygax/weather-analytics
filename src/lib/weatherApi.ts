@@ -1,10 +1,10 @@
-import { CityWeather, WeatherType } from "../types/weatherTypes";
+import { CityWeatherType, WeatherType } from "../types/weatherTypes";
 
 const BASE_URL = "https://api.openweathermap.org/data/2.5";
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-const doApiCall = async (typesUrl: { type: WeatherType, url: string }[]): Promise<CityWeather> => {
+const doApiCall = async (typesUrl: { type: WeatherType, url: string }[]): Promise<CityWeatherType> => {
 
   const weatherData = await Promise.all(
     typesUrl.map(async (typeUrl) => {
@@ -23,10 +23,10 @@ const doApiCall = async (typesUrl: { type: WeatherType, url: string }[]): Promis
     const typeLookingAt = typeUrl.type === "weather" ? "current" : "forecast";
     acc[typeLookingAt] = weatherData[index];
     return acc;
-  }, {} as CityWeather);
+  }, {} as CityWeatherType);
 }
 
-export const getWeatherByCity = async (city: string): Promise<CityWeather> => {
+export const getWeatherByCity = async (city: string): Promise<CityWeatherType> => {
   try {
     const types: WeatherType[] = ["weather", "forecast"];
     const typesUrl = types.map((type) => {
@@ -36,7 +36,7 @@ export const getWeatherByCity = async (city: string): Promise<CityWeather> => {
       }
     });
 
-    const weatherData: CityWeather = await doApiCall(typesUrl);
+    const weatherData: CityWeatherType = await doApiCall(typesUrl);
     return weatherData;
   } catch (err) {
     console.error(err);
@@ -48,7 +48,7 @@ export const getWeatherByCity = async (city: string): Promise<CityWeather> => {
 // TODO NEEDS BETTER ERROR REPORTING!!!
 // TODO NEEDS BETTER ERROR REPORTING!!!
 // TODO NEEDS BETTER ERROR REPORTING!!!
-const getWeatherByLongLat = async (latitude: number, longitude: number): Promise<CityWeather> => {
+const getWeatherByLongLat = async (latitude: number, longitude: number): Promise<CityWeatherType> => {
   try {
     const types: WeatherType[] = ["weather", "forecast"];
     const typesUrl = types.map((type) => {
@@ -58,7 +58,7 @@ const getWeatherByLongLat = async (latitude: number, longitude: number): Promise
       }
     });
 
-    const weatherData: CityWeather = await doApiCall(typesUrl);
+    const weatherData: CityWeatherType = await doApiCall(typesUrl);
     return weatherData;
 
   } catch (error) {
@@ -77,12 +77,12 @@ const getCurrentPosition = (options?: PositionOptions): Promise<GeolocationPosit
   });
 };
 
-export const getLocalWeather = async (): Promise<{ city: string; weatherData: CityWeather }> => {
+export const getLocalWeather = async (): Promise<{ city: string; weatherData: CityWeatherType }> => {
   try {
     const position = await getCurrentPosition({ enableHighAccuracy: true });
     const { latitude, longitude } = position.coords;
 
-    const weatherData: CityWeather = await getWeatherByLongLat(latitude, longitude);
+    const weatherData: CityWeatherType = await getWeatherByLongLat(latitude, longitude);
     return {
       weatherData,
       city: weatherData.current.name
