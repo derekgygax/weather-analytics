@@ -1,10 +1,12 @@
 
-import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetailsBox"
+// layouts
+import { WeatherDetailsBox } from "../weatherDetailsBox/WeatherDetailsBox"
 
 export const SkyConditions = () => {
   return (
-    <WeatherDetailsBox title="Sky Conditions">
-      <div>Ahh</div>
-    </WeatherDetailsBox>
+    <WeatherDetailsBox
+      title="Sky Conditions"
+      metrics={[]}
+    />
   )
 }
