@@ -66,6 +66,7 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
         )}
         type="text"
         name="city"
+        placeholder="Enter City Name"
         onClick={() => {
           setErrorMessage(null);
         }}
