@@ -2,7 +2,7 @@ import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } fro
 
 // types
 import { AtmospherDateData } from "../../types/atmosphere";
-import { ChartContainer } from "../../layouts/chartContainer/ChartContainer";
+import { GridItem } from "../../layouts/gridItem/GridItem";
 
 interface BarChartComponentProps {
   atmosphereDataCurrentCity: AtmospherDateData[];
@@ -11,9 +11,16 @@ interface BarChartComponentProps {
 export const BarChartComponent = ({ atmosphereDataCurrentCity }: BarChartComponentProps) => {
 
   return (
-    <ChartContainer>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={atmosphereDataCurrentCity}>
+    <GridItem title="sksks">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          width={500}
+          height={300}
+          data={atmosphereDataCurrentCity}
+          margin={{
+            right: 30
+          }}
+        >
           <XAxis dataKey="date" />
 
           <YAxis />
@@ -31,7 +38,7 @@ export const BarChartComponent = ({ atmosphereDataCurrentCity }: BarChartCompone
           <Bar dataKey="windSpeed" name="Wind Speed" fill="#ffb703" stackId="a" />
         </BarChart>
       </ResponsiveContainer>
-    </ChartContainer>
+    </GridItem>
   );
 };
 

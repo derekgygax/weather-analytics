@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // types
 import { WeatherState, ForecastCity, ForecastWeatherType, CityWeatherType } from '../../types/weatherTypes';
 import { TempTimeByCity, TemperatureTimeData } from "../../types/temp";
+import { AtmospherDateData } from "../../types/atmosphere";
 
 // utils
 import { capitalizeAsTitle, getTempDataFormattedCountry } from '../../lib/utils';
@@ -16,12 +17,13 @@ import { Title } from '../../layouts/title/Title';
 
 // components
 import { LineChartComponent } from '../lineChartComponent/LineChartComponent';
+import { BarChartComponent } from "../barChatComponent/BarChartComponent";
+import { CityUpdater } from "../cityUpdater/CityUpdater";
 
 // styles
 import styles from './Forecast.module.scss';
-import { CityUpdater } from "../cityUpdater/CityUpdater";
-import { AtmosphereDataByCity, AtmospherDateData } from "../../types/atmosphere";
-import { BarChartComponent } from "../barChatComponent/BarChartComponent";
+import { CloudCoverageData, CloudCoverageDataByCity } from "../../types/cloudCoverage";
+import { PieChartComponent } from "../pieChartComponent/PieChartComponent";
 
 const getCountryCityKey = (city: ForecastCity) => {
   return `${city.name}, ${city.country}`
@@ -51,10 +53,25 @@ const getAtmosphericData = (forecast: ForecastWeatherType): AtmospherDateData[] 
       windSpeed: entry.wind.speed,
     }));
 
-  console.log(dailyData);
-
   return dailyData;
 };
+
+const getCloudCoverageData = (forecast: ForecastWeatherType): CloudCoverageData[] => {
+  const conditionCounts: Record<string, number> = {};
+
+  forecast.list.forEach((entry) => {
+    const condition = entry.weather[0].main; // Get main weather condition (e.g., "Clear", "Rain", "Clouds")
+    conditionCounts[condition] = (conditionCounts[condition] || 0) + 1;
+  });
+
+  const totalHours = forecast.list.length;
+
+  return Object.entries(conditionCounts).map(([condition, count]) => ({
+    name: condition,
+    value: Math.round((count / totalHours) * 100), // Convert to percentage
+  }));
+};
+
 
 
 
@@ -71,6 +88,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
 
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
   const [atmosphereDataCurrentCity, setAtmosphereDataCurrentCity] = useState<AtmospherDateData[]>([]);
+  const [cloudCoverageDataByCity, setCloudCoverageDataByCity] = useState<CloudCoverageDataByCity>({});
 
   const handleNewCityWeather = (newCityWeather: CityWeatherType) => {
     // add a new city to the graphs
@@ -79,6 +97,12 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
       return {
         ...prevState,
         [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast)
+      }
+    });
+    setCloudCoverageDataByCity((prevState) => {
+      return {
+        ...prevState,
+        [cityCountryKey]: getCloudCoverageData(newCityWeather.forecast)
       }
     });
   }
@@ -96,10 +120,12 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
 
     setAtmosphereDataCurrentCity(getAtmosphericData(currentCityForecast));
 
+    setCloudCoverageDataByCity({
+      [currentCityCountryKey]: getCloudCoverageData(currentCityForecast)
+    })
+
 
   }, [localCountry, currentCityForecast]);
-
-  console.log()
 
   return (
     <>
@@ -116,6 +142,9 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
           />
           <BarChartComponent
             atmosphereDataCurrentCity={atmosphereDataCurrentCity}
+          />
+          <PieChartComponent
+            cloudCoverageDataByCity={cloudCoverageDataByCity}
           />
         </div>
         <CityUpdater

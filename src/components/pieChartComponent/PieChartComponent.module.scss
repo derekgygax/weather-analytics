@@ -1,0 +1,20 @@
+.customLegend {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-self: center;
+}
+
+.customLegend__li {
+  display: flex;
+  align-items: center;
+}
+
+.customLegend__li__span {
+  display: inline-block;
+  margin-right: 0.125rem;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}

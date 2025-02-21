@@ -2,17 +2,22 @@ import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } f
 
 import { TempTimeByCity } from "../../types/temp";
 import { ChartContainer } from "../../layouts/chartContainer/ChartContainer";
+import { GridItem } from "../../layouts/gridItem/GridItem";
 
 interface LineChartComponentProps {
   tempTimeDataByCity: TempTimeByCity;
 }
 
 export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentProps) => {
-
   return (
-    <ChartContainer>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart>
+    <GridItem title="AHH">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          width={500}
+          height={400}
+          margin={{
+            right: 30
+          }}>
           {/* X-Axis */}
           <XAxis
             dataKey="time"
@@ -45,6 +50,6 @@ export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentPro
           })}
         </LineChart>
       </ResponsiveContainer>
-    </ChartContainer>
+    </GridItem>
   );
 }

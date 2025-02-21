@@ -1,0 +1,19 @@
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  height: 24rem;
+  width: 22rem;
+
+}
+
+.gridItem__title {
+  font-size: 1.5rem; // text-2xl
+  font-weight: 600; // font-semibold
+  // color: white; // text-white
+  margin-bottom: 1rem; // mb-4
+}
