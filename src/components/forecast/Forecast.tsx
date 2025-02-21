@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // types
 import { WeatherState, ForecastCity, ForecastWeatherType, CityWeatherType } from '../../types/weatherTypes';
 import { TempTimeByCity, TemperatureTimeData } from "../../types/temp";
-import { AtmospherDateData } from "../../types/atmosphere";
+import { RainData, RainDataByCity } from "../../types/rain";
 
 // utils
 import { capitalizeAsTitle, getTempDataFormattedCountry } from '../../lib/utils';
@@ -41,26 +41,33 @@ const getHourlyTemperatureData = (localCountry: string, forecast: ForecastWeathe
   }));
 };
 
-const getAtmosphericData = (forecast: ForecastWeatherType): AtmospherDateData[] => {
-  // Extracts data for the next 5 days (API usually provides 3-hour intervals)
-  const dailyData = forecast.list
-    .filter((_, index) => index % 8 === 0) // Get roughly one entry per day (24h / 3h = 8)
-    .slice(0, 5) // Limit to 5 days
-    .map(entry => ({
-      date: new Date(entry.dt * 1000).toLocaleDateString([], { month: 'short', day: '2-digit' }),
-      rainProbability: entry.clouds.all, // Cloud % used as rain probability (adjust if API provides actual rain %)
-      humidity: entry.main.humidity,
-      windSpeed: entry.wind.speed,
-    }));
+const getRainProbabilityData = (forecast: ForecastWeatherType): RainData[] => {
+  const dailyData: Record<string, number[]> = {};
 
-  return dailyData;
+  forecast.list.forEach(entry => {
+    const date = new Date(entry.dt * 1000).toLocaleDateString([], { month: 'short', day: '2-digit' });
+
+    if (!dailyData[date]) {
+      dailyData[date] = [];
+    }
+    dailyData[date].push(entry.clouds.all);
+  });
+
+  return Object.entries(dailyData).map(([date, probabilities]) => ({
+    date,
+    probability: Math.round(
+      probabilities.reduce((sum, value) => sum + value, 0) / probabilities.length
+    ),
+  }));
 };
+
+
 
 const getCloudCoverageData = (forecast: ForecastWeatherType): CloudCoverageData[] => {
   const conditionCounts: Record<string, number> = {};
 
   forecast.list.forEach((entry) => {
-    const condition = entry.weather[0].main; // Get main weather condition (e.g., "Clear", "Rain", "Clouds")
+    const condition = entry.weather[0].main;
     conditionCounts[condition] = (conditionCounts[condition] || 0) + 1;
   });
 
@@ -68,7 +75,7 @@ const getCloudCoverageData = (forecast: ForecastWeatherType): CloudCoverageData[
 
   return Object.entries(conditionCounts).map(([condition, count]) => ({
     name: condition,
-    value: Math.round((count / totalHours) * 100), // Convert to percentage
+    value: Math.round((count / totalHours) * 100),
   }));
 };
 
@@ -87,7 +94,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
 
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
-  const [atmosphereDataCurrentCity, setAtmosphereDataCurrentCity] = useState<AtmospherDateData[]>([]);
+  const [rainDataByCity, setRainDataByCity] = useState<RainDataByCity>({});
   const [cloudCoverageDataByCity, setCloudCoverageDataByCity] = useState<CloudCoverageDataByCity>({});
 
   const handleNewCityWeather = (newCityWeather: CityWeatherType) => {
@@ -97,6 +104,12 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
       return {
         ...prevState,
         [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast)
+      }
+    });
+    setRainDataByCity((prevState) => {
+      return {
+        ...prevState,
+        [cityCountryKey]: getRainProbabilityData(newCityWeather.forecast)
       }
     });
     setCloudCoverageDataByCity((prevState) => {
@@ -118,7 +131,9 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
       [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
     });
 
-    setAtmosphereDataCurrentCity(getAtmosphericData(currentCityForecast));
+    setRainDataByCity({
+      [currentCityCountryKey]: getRainProbabilityData(currentCityForecast)
+    });
 
     setCloudCoverageDataByCity({
       [currentCityCountryKey]: getCloudCoverageData(currentCityForecast)
@@ -126,13 +141,14 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
 
 
   }, [localCountry, currentCityForecast]);
+  console.log(rainDataByCity);
 
   return (
     <>
       <Title
         level={1}
         // This MAY get a variable so we leave capitalizeAsTitle
-        title={capitalizeAsTitle("Forecast")}
+        title={capitalizeAsTitle("5 Day Forecast")}
         className={styles.forecastTitle}
       />
       <section className={styles.chartsContainer}>
@@ -141,7 +157,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
             tempTimeDataByCity={tempTimeDataByCity}
           />
           <BarChartComponent
-            atmosphereDataCurrentCity={atmosphereDataCurrentCity}
+            rainDataByCity={rainDataByCity}
           />
           <PieChartComponent
             cloudCoverageDataByCity={cloudCoverageDataByCity}

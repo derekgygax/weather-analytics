@@ -32,7 +32,7 @@ interface PieChartComponentProps {
 
 export const PieChartComponent = ({ cloudCoverageDataByCity }: PieChartComponentProps) => {
   return (
-    <GridItem title="nooo">
+    <GridItem title="Sky Coverage">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart
           width={500}

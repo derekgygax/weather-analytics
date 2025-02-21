@@ -9,7 +9,7 @@ interface LineChartComponentProps {
 
 export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentProps) => {
   return (
-    <GridItem title="AHH">
+    <GridItem title="Temperature">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           width={500}

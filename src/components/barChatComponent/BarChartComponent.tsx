@@ -1,22 +1,51 @@
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
 // types
-import { AtmospherDateData } from "../../types/atmosphere";
+import { RainData, RainDataByCity } from "../../types/rain";
 import { GridItem } from "../../layouts/gridItem/GridItem";
 
-interface BarChartComponentProps {
-  atmosphereDataCurrentCity: AtmospherDateData[];
+
+const constructDataArray = (rainDataByCity: RainDataByCity) => {
+
+  const data: { [key: string]: number | string }[] = [];
+  const dataMiddle: Record<string, { [key: string]: number }> = {};
+
+  Object.entries(rainDataByCity).forEach(([city, rainData]) => {
+    rainData.forEach((dayProb: RainData) => {
+      if (!(dayProb.date in dataMiddle)) {
+        dataMiddle[dayProb.date] = {};
+      }
+      dataMiddle[dayProb.date][city] = dayProb.probability
+    })
+  })
+
+  Object.entries(dataMiddle).forEach(([date, cities]) => {
+    data.push({
+      date: date,
+      ...cities
+    });
+  });
+
+  return data;
+
 }
 
-export const BarChartComponent = ({ atmosphereDataCurrentCity }: BarChartComponentProps) => {
+interface BarChartComponentProps {
+  rainDataByCity: RainDataByCity;
+}
+
+export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) => {
+  const data = constructDataArray(rainDataByCity);
+
+  // const fff = rainDataByCity[Object.keys(rainDataByCity)[0]];
 
   return (
-    <GridItem title="sksks">
+    <GridItem title="Precipitation">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}
           height={300}
-          data={atmosphereDataCurrentCity}
+          data={data}
           margin={{
             right: 30
           }}
@@ -32,10 +61,16 @@ export const BarChartComponent = ({ atmosphereDataCurrentCity }: BarChartCompone
           {/* Legend for Key Reference */}
           <Legend />
 
-          {/* Bars for Rain Probability, Humidity, and Wind Speed */}
-          <Bar dataKey="rainProbability" name="Rain %" fill="#0077b6" />
-          <Bar dataKey="humidity" name="Humidity %" fill="#00a8e8" />
-          <Bar dataKey="windSpeed" name="Wind Speed" fill="#ffb703" stackId="a" />
+          {Object.keys(rainDataByCity).map((city: string, index: number) => {
+            return (
+              <Bar
+                key={index}
+                dataKey={city}
+                name={city}
+                fill={index === 2 ? "#0077b6" : index === 1 ? "#00a8e8" : "#ffb703"}
+              />
+            );
+          })}
         </BarChart>
       </ResponsiveContainer>
     </GridItem>
