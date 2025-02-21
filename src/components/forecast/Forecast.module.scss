@@ -6,6 +6,11 @@
 
 .chartsContainer {
   display: flex;
+  flex-direction: column;
+}
+
+.charts {
+  display: flex;
   gap: 1rem;
   justify-content: space-evenly;
   flex-wrap: wrap;

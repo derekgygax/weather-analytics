@@ -20,6 +20,8 @@ import { LineChartComponent } from '../lineChartComponent/LineChartComponent';
 // styles
 import styles from './Forecast.module.scss';
 import { CityUpdater } from "../cityUpdater/CityUpdater";
+import { AtmosphereDataByCity, AtmospherDateData } from "../../types/atmosphere";
+import { BarChartComponent } from "../barChatComponent/BarChartComponent";
 
 const getCountryCityKey = (city: ForecastCity) => {
   return `${city.name}, ${city.country}`
@@ -37,6 +39,24 @@ const getHourlyTemperatureData = (localCountry: string, forecast: ForecastWeathe
   }));
 };
 
+const getAtmosphericData = (forecast: ForecastWeatherType): AtmospherDateData[] => {
+  // Extracts data for the next 5 days (API usually provides 3-hour intervals)
+  const dailyData = forecast.list
+    .filter((_, index) => index % 8 === 0) // Get roughly one entry per day (24h / 3h = 8)
+    .slice(0, 5) // Limit to 5 days
+    .map(entry => ({
+      date: new Date(entry.dt * 1000).toLocaleDateString([], { month: 'short', day: '2-digit' }),
+      rainProbability: entry.clouds.all, // Cloud % used as rain probability (adjust if API provides actual rain %)
+      humidity: entry.main.humidity,
+      windSpeed: entry.wind.speed,
+    }));
+
+  console.log(dailyData);
+
+  return dailyData;
+};
+
+
 
 
 interface ForecastProps {
@@ -50,6 +70,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
 
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
+  const [atmosphereDataCurrentCity, setAtmosphereDataCurrentCity] = useState<AtmospherDateData[]>([]);
 
   const handleNewCityWeather = (newCityWeather: CityWeatherType) => {
     // add a new city to the graphs
@@ -59,7 +80,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         ...prevState,
         [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast)
       }
-    })
+    });
   }
 
   useEffect(() => {
@@ -73,8 +94,12 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
       [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
     });
 
+    setAtmosphereDataCurrentCity(getAtmosphericData(currentCityForecast));
+
 
   }, [localCountry, currentCityForecast]);
+
+  console.log()
 
   return (
     <>
@@ -85,9 +110,14 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         className={styles.forecastTitle}
       />
       <section className={styles.chartsContainer}>
-        <LineChartComponent
-          tempTimeDataByCity={tempTimeDataByCity}
-        />
+        <div className={styles.charts}>
+          <LineChartComponent
+            tempTimeDataByCity={tempTimeDataByCity}
+          />
+          <BarChartComponent
+            atmosphereDataCurrentCity={atmosphereDataCurrentCity}
+          />
+        </div>
         <CityUpdater
           title="Add Cities to the Graphs"
           handleNewCityWeather={handleNewCityWeather}
