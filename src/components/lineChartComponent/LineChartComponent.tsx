@@ -1,7 +1,6 @@
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
 import { TempTimeByCity } from "../../types/temp";
-import { ChartContainer } from "../../layouts/chartContainer/ChartContainer";
 import { GridItem } from "../../layouts/gridItem/GridItem";
 
 interface LineChartComponentProps {
@@ -16,7 +15,7 @@ export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentPro
           width={500}
           height={400}
           margin={{
-            right: 30
+            right: 50
           }}>
           {/* X-Axis */}
           <XAxis
