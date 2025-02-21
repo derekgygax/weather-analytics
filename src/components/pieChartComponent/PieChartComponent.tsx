@@ -38,8 +38,6 @@ export const PieChartComponent = ({ cloudCoverageDataByCity }: PieChartComponent
     <GridItem title="Sky Coverage">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart
-          width={500}
-          height={400}
         >
           <Tooltip content={<CustomTooltip />} />
           <Legend content={<CustomLegend />} />

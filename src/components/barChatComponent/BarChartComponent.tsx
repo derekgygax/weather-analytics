@@ -102,8 +102,6 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
     <GridItem title="Precipitation">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-          width={500}
-          height={300}
           data={data}
           margin={{
             right: 30
@@ -148,8 +146,11 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
 const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (!active || !payload || payload.length === 0) return null;
 
+  const date = payload[0]?.payload.date ?? "Unknown Time";
+
   return (
     <div className={chartStyles.tooltip} style={{ borderColor: "grey" }} role="tooltip">
+      <h4 className={chartStyles.date}>{date}</h4>
       {payload.map((cityData, index) => {
         const cityName = cityData?.name ?? "Unknown City";
         const value = cityData?.value ?? 0;

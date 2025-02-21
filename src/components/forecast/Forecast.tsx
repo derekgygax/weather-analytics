@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from "react";
 
+import { Tab, Tabs, Box } from "@mui/material";
+
 // types
 import { WeatherState, ForecastCity, ForecastWeatherType, CityWeatherType } from '../../types/weatherTypes';
 import { TempTimeByCity, TemperatureTimeData } from "../../types/temp";
@@ -86,6 +88,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   const localCountry: string = weatherState.localCountry;
   const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
 
+  const [activeTab, setActiveTab] = useState(0);
   const [currentCityCountryKey, setCurrentCityCountryKey] = useState<string>("");
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
   const [rainDataByCity, setRainDataByCity] = useState<RainDataByCity>({});
@@ -179,18 +182,31 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         title={capitalizeAsTitle("5 Day Forecast")}
         className={styles.forecastTitle}
       />
-      <section className={styles.chartsContainer}>
+      <section>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
+          <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} aria-label="forecast chart tabs">
+            <Tab label="Temperature" />
+            <Tab label="Precipitation" />
+            <Tab label="Sky Coverage" />
+          </Tabs>
+        </Box>
         <div className={styles.charts}>
-          <LineChartComponent
-            tempTimeDataByCity={tempTimeDataByCity}
-            localCountry={localCountry}
-          />
-          <BarChartComponent
-            rainDataByCity={rainDataByCity}
-          />
-          <PieChartComponent
-            cloudCoverageDataByCity={cloudCoverageDataByCity}
-          />
+          {activeTab === 0 && (
+            <LineChartComponent
+              tempTimeDataByCity={tempTimeDataByCity}
+              localCountry={localCountry}
+            />
+          )}
+          {activeTab === 1 && (
+            <BarChartComponent
+              rainDataByCity={rainDataByCity}
+            />
+          )}
+          {activeTab === 2 && (
+            <PieChartComponent
+              cloudCoverageDataByCity={cloudCoverageDataByCity}
+            />
+          )}
         </div>
         <CityUpdater
           title="Add Cities for Comparison"
@@ -200,7 +216,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
           className={styles.cityUpdater}
           classNameSearchBarInput={styles.searchBarInput}
         />
-      </section>
+      </section >
     </>
   )
 }

@@ -79,8 +79,6 @@ export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineCha
     <GridItem title="Temperature">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          width={500}
-          height={400}
           margin={{
             right: 50
           }}>
@@ -128,8 +126,11 @@ export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineCha
 const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (!active || !payload || payload.length === 0) return null;
 
+  const date = payload[0]?.payload.displayTime ?? "Unknown Time";
+
   return (
     <div className={chartStyles.tooltip} style={{ borderColor: "grey" }} role="tooltip">
+      <h4 className={chartStyles.date}>{date}</h4>
       {payload.map((cityData, index) => {
         const country = cityData?.payload.country ?? undefined;
         const cityName = cityData?.name ?? "Unknown City";
@@ -137,7 +138,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
         const color = cityData?.color ?? "#8884d8";
         return (
           <React.Fragment key={index}>
-            <h3 className={chartStyles.cityName}>{cityName}</h3>
+            <h4 className={chartStyles.cityName}>{cityName}</h4>
             <p className={chartStyles.data}>
               <span className={chartStyles.weatherType}>Temp: </span>
               <span className={chartStyles.value} style={{ color }}>{`${value}${FAHRENHEIT_COUNTRIES.includes(country) ? "°F" : "°C"}`}</span>

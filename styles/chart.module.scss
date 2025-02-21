@@ -27,22 +27,24 @@
   border: 2px solid;
   font-size: 0.875rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
   min-width: 140px;
   max-width: 200px;
   line-height: 1.4;
 }
 
+.date {
+  font-size: 1.125rem;
+}
+
 .cityName {
   font-weight: 600;
-  font-size: 1rem;
-  color: #222;
-  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
 }
 
 .data {
   font-size: 0.875rem;
-  color: #444;
+  margin-left: 1rem;
 }
 
 .weatherType {
