@@ -1,9 +1,12 @@
 
+import { useEffect, useState } from "react";
+
 // types
-import { WeatherState } from '../../types/weatherTypes';
+import { WeatherState, ForecastCity, ForecastWeatherType } from '../../types/weatherTypes';
+import { TempTimeByCity, TemperatureTimeData } from "../../types/temp";
 
 // utils
-import { capitalizeAsTitle } from '../../lib/utils';
+import { capitalizeAsTitle, getTempDataFormattedCountry } from '../../lib/utils';
 
 // reducer
 import { WeatherReducerAction } from "../../reducers/WeatherReducer";
@@ -17,6 +20,24 @@ import { LineChartComponent } from '../lineChart/LineChart';
 // styles
 import styles from './Forecast.module.scss';
 
+const getCountryCityKey = (city: ForecastCity) => {
+  return `${city.name}, ${city.country}`
+}
+
+const getHourlyTemperatureData = (localCountry: string, forecast: ForecastWeatherType): TemperatureTimeData[] => {
+  // The API returns 3 hour increments so 8 for
+  // 24 hours
+  return forecast.list.slice(0, 8).map(entry => ({
+    time: entry.dt * 1000,
+    displayTime: new Date(entry.dt * 1000).toLocaleString([], {
+      month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true
+    }),
+    ...getTempDataFormattedCountry(entry.main.temp, localCountry)
+  }));
+};
+
+
+
 interface ForecastProps {
   weatherState: WeatherState;
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
@@ -24,6 +45,25 @@ interface ForecastProps {
 }
 
 export const Forecast = ({ weatherState }: ForecastProps) => {
+
+  const localCountry = weatherState.localCountry;
+  const currentCityForecast = weatherState.selectedCityWeather?.data.forecast;
+
+  const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
+
+  useEffect(() => {
+    if (!currentCityForecast) {
+      return;
+    }
+    const currentCityCountryKey = getCountryCityKey(currentCityForecast.city);
+
+    setTempTimeDataByCity({
+      ...tempTimeDataByCity,
+      [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
+    })
+
+  }, [localCountry, currentCityForecast]);
+
   return (
     <>
       <Title
@@ -32,19 +72,11 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         title={capitalizeAsTitle("Forecast")}
         className={styles.forecastTitle}
       />
-      {/* TODO FX THIS!!!!
-      THE ERROR CATCHING!! */}
-      {weatherState.selectedCityWeather ? (
-        <section className={styles.chartsContainer}>
-          <LineChartComponent
-            localCountry={weatherState.localCountry}
-            currentCityForecast={weatherState.selectedCityWeather.data.forecast}
-          />
-        </section>
-      ) : (
-        // TODO FIXXX
-        <h1>WHAT!!! FIX!!</h1>
-      )}
+      <section className={styles.chartsContainer}>
+        <LineChartComponent
+          tempTimeDataByCity={tempTimeDataByCity}
+        />
+      </section>
     </>
   )
 }
