@@ -79,7 +79,6 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
       <ul className={chartStyles.customLegend}>
         {Object.keys(rainDataByCity).map((city, index) => {
           const isHidden = hiddenCities.includes(city);
-          console.log(city);
           return (
             <li
               key={index}

@@ -198,6 +198,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
           currentCity={weatherState.selectedCityWeather?.city}
           searchHistory={weatherState.searchHistory}
           className={styles.cityUpdater}
+          classNameSearchBarInput={styles.searchBarInput}
         />
       </section>
     </>

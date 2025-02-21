@@ -12,9 +12,10 @@ interface SearchBarProps {
   isCityWeatherLoading: boolean;
   className?: string;
   handleCityChange: (newCity: string) => Promise<boolean>;
+  classNameSearchBarInput?: string;
 }
 
-export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange }: SearchBarProps) => {
+export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange, classNameSearchBarInput }: SearchBarProps) => {
 
   const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<boolean>(false);
@@ -40,6 +41,7 @@ export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange }:
         <input
           className={classNames(
             styles.input,
+            classNameSearchBarInput,
             error ? styles.error : ""
           )}
           type="text"
