@@ -15,7 +15,7 @@ import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 import { Title } from '../../layouts/title/Title';
 
 // components
-import { LineChartComponent } from '../lineChart/LineChart';
+import { LineChartComponent } from '../lineChartComponent/LineChartComponent';
 
 // styles
 import styles from './Forecast.module.scss';
