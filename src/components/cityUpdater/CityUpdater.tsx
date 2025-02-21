@@ -41,7 +41,7 @@ export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, 
     } catch (err) {
       console.error(err);
       setIsLoading(false);
-      setMessage(`Failed to fetch weather for ${newCity}. Please search again.`);
+      setMessage(`Couldn't fetch ${newCity}. Please try again.`);
       return false;
     }
   }

@@ -18,4 +18,8 @@
 
 .formElements {
   display: flex;
+
+  @media screen and (max-width: $small-width ) {
+    justify-content: center;
+  }
 }

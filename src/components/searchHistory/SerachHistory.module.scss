@@ -7,4 +7,13 @@
   }
 }
 
+.searchHistory {
+  @media screen and (max-width: $small-width ) {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    justify-content: center;
+  }
+}
+
 .select__option {}

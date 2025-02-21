@@ -38,7 +38,7 @@ export const SearchHistory = ({ currentCity, searchHistory, handleCityChange, cl
   };
 
   return (
-    <div className={className}>
+    <div className={classNames(className, styles.searchHistory)}>
       <h4>Search History</h4>
       <select
         ref={selectorRef}

@@ -12,11 +12,21 @@
   justify-content: center;
   padding-right: 7rem;
 
-  @media screen and (max-width: $small-width ) {
+  @media screen and (max-width: $large-width) {
+    padding-right: 4rem;
+  }
+
+  @media screen and (max-width: $medium-width) {
+    padding-right: 2rem;
+    gap: 0.5rem;
+  }
+
+  @media screen and (max-width: $small-width) {
+    flex: 5 1 0%;
     padding-right: 0;
     flex-direction: column;
-    align-items: center;
     gap: 0;
+    justify-content: end;
   }
 }
 
@@ -26,20 +36,48 @@
 
 .searchBar {
   padding-left: 4rem;
+
+  @media screen and (max-width: $large-width) {
+    padding-left: 2rem;
+  }
+
+  @media screen and (max-width: $medium-width) {
+    padding-left: 1rem;
+  }
+
+  @media screen and (max-width: $small-width) {
+    padding-left: 0;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .messageContainer {
   display: flex;
   flex: 2 1 0%;
   justify-content: center;
+
+  @media screen and (max-width: $medium-width) {
+    flex: 1 1 auto;
+  }
 }
 
 .message {
   font-weight: bold;
   padding-top: 0.5rem;
   color: $dark-text-color;
+
+  @media screen and (max-width: $small-width) {
+    padding-top: 0;
+    font-size: 1rem;
+  }
 }
 
 .searchHistory {
   padding-bottom: .4rem;
+
+  @media screen and (max-width: $small-width) {
+    width: 100%;
+    text-align: center;
+  }
 }
