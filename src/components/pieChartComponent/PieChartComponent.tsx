@@ -1,12 +1,15 @@
 
 
 import { PieChart, Pie, ResponsiveContainer, Tooltip, Legend, Cell, LegendProps } from "recharts";
+
+// types
 import { CloudCoverageDataByCity } from "../../types/cloudCoverage"
-import { ChartContainer } from "../../layouts/chartContainer/ChartContainer";
+
+// layouts
+import { GridItem } from "../../layouts/gridItem/GridItem";
 
 // styles
 import styles from './PieChartComponent.module.scss';
-import { GridItem } from "../../layouts/gridItem/GridItem";
 
 const colorMap: Record<string, string> = {
   Clouds: "#8884d8",  // Purple
