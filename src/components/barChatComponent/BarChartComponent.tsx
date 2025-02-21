@@ -1,8 +1,14 @@
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import React from "react";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, LegendProps, TooltipProps } from "recharts";
+
+// layouts
+import { GridItem } from "../../layouts/gridItem/GridItem";
 
 // types
 import { RainData, RainDataByCity } from "../../types/rain";
-import { GridItem } from "../../layouts/gridItem/GridItem";
+
+// styles
+import styles from './BarChartComponent.module.scss'
 
 
 const constructDataArray = (rainDataByCity: RainDataByCity) => {
@@ -54,12 +60,8 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
 
           <YAxis />
 
-          <Tooltip
-            formatter={(value, name) => [`${value} ${name === "windSpeed" ? "km/h" : "%"}`, name]}
-          />
-
-          {/* Legend for Key Reference */}
-          <Legend />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend content={<CustomLegend />} />
 
           {Object.keys(rainDataByCity).map((city: string, index: number) => {
             return (
@@ -78,62 +80,56 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
 };
 
 
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (!active || !payload || payload.length === 0) return null;
+
+  return (
+    <div className={styles.tooltip} style={{ borderColor: "grey" }} role="tooltip">
+      {payload.map((cityData, index) => {
+        const cityName = cityData?.name ?? "Unknown City";
+        const value = cityData?.value ?? 0;
+        const color = cityData?.color ?? "#8884d8";
+        return (
+          <React.Fragment key={index}>
+            <h3 className={styles.cityName}>{cityName}</h3>
+            <p className={styles.data}>
+              <span className={styles.weatherType}>Rain Probability: </span>
+              <span className={styles.value} style={{ color }}>{value}%</span>
+            </p>
+          </React.Fragment>
+        )
+      })}
+    </div>
+  );
+};
 
 
+const CustomLegend = ({ payload }: LegendProps) => {
+  if (!payload) return null;
 
+  // Extract unique weather types from payload
+  const uniqueWeatherTypes = Array.from(
+    new Set(payload.map((entry) => entry.value))
+  );
 
+  return (
+    <ul className={styles.customLegend}>
+      {uniqueWeatherTypes.map((weatherType, index) => {
+        const color = payload.find((entry) => entry.value === weatherType)
+          ?.color;
 
-
-
-
-
-
-// import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
-
-// // types
-// import { AtmosphereDataByCity } from "../../types/atmosphere";
-// import { ChartContainer } from "../../layouts/chartContainer/ChartContainer";
-
-// interface BarChartComponentProps {
-//   atmosphereDataByCity: AtmosphereDataByCity;
-// }
-
-// export const BarChartComponent = ({ atmosphereDataByCity }: BarChartComponentProps) => {
-//   return (
-//     <ChartContainer>
-//       <ResponsiveContainer width="100%" height={400}>
-//         <BarChart>
-//           {/* X-Axis (Days) */}
-//           <XAxis
-//             dataKey="date"
-//             tickFormatter={(tick) =>
-//               new Date(tick).toLocaleDateString([], { month: "short", day: "2-digit" })
-//             }
-//           />
-//           {/* Y-Axis (Values: % or Speed) */}
-//           <YAxis />
-
-//           {/* Tooltip for Hover Info */}
-//           <Tooltip
-//             labelFormatter={(label) =>
-//               new Date(label).toLocaleDateString([], { month: "short", day: "2-digit" })
-//             }
-//             formatter={(value, name) => [`${value} ${name === "windSpeed" ? "km/h" : "%"}`, name]}
-//           />
-
-//           {/* Legend for Key Reference */}
-//           <Legend />
-
-//           {/* Bars for Each Data Type */}
-//           {/* {Object.entries(atmosphereDataByCity).map(([city, cityData], index) => (
-//             <>
-//               <Bar key={`${city}-rain`} data={cityData} dataKey="rainProbability" name={`${city} - Rain %`} fill="#0077b6" />
-//               <Bar key={`${city}-humidity`} data={cityData} dataKey="humidity" name={`${city} - Humidity %`} fill="#00a8e8" />
-//               <Bar key={`${city}-wind`} data={cityData} dataKey="windSpeed" name={`${city} - Wind Speed`} fill="#ffb703" />
-//             </>
-//           ))} */}
-//         </BarChart>
-//       </ResponsiveContainer>
-//     </ChartContainer>
-//   );
-// };
+        return (
+          <li key={index} className={styles.customLegend__li}>
+            <span
+              className={styles.customLegend__li__span}
+              style={{
+                backgroundColor: color || "#8884d8",
+              }}
+            />
+            {weatherType}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
