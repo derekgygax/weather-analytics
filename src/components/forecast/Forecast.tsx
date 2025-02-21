@@ -193,7 +193,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
           />
         </div>
         <CityUpdater
-          title="Add Cities to the Graphs"
+          title="Add Cities for Comparison"
           handleNewCityWeather={handleNewCityWeather}
           currentCity={weatherState.selectedCityWeather?.city}
           searchHistory={weatherState.searchHistory}
