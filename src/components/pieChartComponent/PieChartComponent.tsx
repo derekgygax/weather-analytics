@@ -9,7 +9,7 @@ import { CloudCoverageDataByCity } from "../../types/cloudCoverage"
 import { GridItem } from "../../layouts/gridItem/GridItem";
 
 // styles
-import styles from './PieChartComponent.module.scss';
+import chartStyles from '@/styles/chart.module.scss';
 
 const colorMap: Record<string, string> = {
   Clouds: "#00a8e8",  // Brighter aqua blue 
@@ -75,11 +75,11 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   const color = payload[0]?.payload.fill ?? "#8884d8";
 
   return (
-    <div className={styles.tooltip} style={{ borderColor: color }} role="tooltip">
-      <h3 className={styles.cityName}>{cityName}</h3>
-      <p className={styles.data}>
-        <span className={styles.weatherType}>{`${weatherType}: `}</span>
-        <span className={styles.value}>{value}%</span>
+    <div className={chartStyles.tooltip} style={{ borderColor: color }} role="tooltip">
+      <h3 className={chartStyles.cityName}>{cityName}</h3>
+      <p className={chartStyles.data}>
+        <span className={chartStyles.weatherType}>{`${weatherType}: `}</span>
+        <span className={chartStyles.value}>{value}%</span>
       </p>
     </div>
   );
@@ -94,15 +94,15 @@ const CustomLegend = ({ payload }: LegendProps) => {
   );
 
   return (
-    <ul className={styles.customLegend}>
+    <ul className={chartStyles.customLegend}>
       {uniqueWeatherTypes.map((weatherType, index) => {
         const color = payload.find((entry) => entry.value === weatherType)
           ?.color;
 
         return (
-          <li key={index} className={styles.customLegend__li}>
+          <li key={index} className={chartStyles.customLegend__li}>
             <span
-              className={styles.customLegend__li__span}
+              className={chartStyles.customLegend__li__span}
               style={{
                 backgroundColor: color || "#8884d8",
               }}

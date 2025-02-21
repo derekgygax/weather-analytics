@@ -5,7 +5,7 @@ const WORDS_EXCLUDED_FROM_TITLE_CASE = [
   "nor", "of", "on", "or", "so", "the", "to", "up", "yet", "with"
 ];
 
-const FAHRENHEIT_COUNTRIES: string[] = ["BS", "BZ", "KY", "PW", "US", "MM"];
+export const FAHRENHEIT_COUNTRIES: string[] = ["BS", "BZ", "KY", "PW", "US", "MM"];
 
 export const kelvinToFahrenheit = (kelvin: number): number => {
   return Math.round((((kelvin - 273.15) * 9) / 5 + 32) * 10) / 10;
@@ -32,13 +32,15 @@ export const getTempDataFormattedCountry = (tempK: number, country: string): Tem
     const temp = kelvinToFahrenheit(tempK);
     return {
       temperature: temp,
-      displayTemperature: formatTemperature(temp, "F")
+      displayTemperature: formatTemperature(temp, "F"),
+      country: country
     }
   } else {
     const temp = kelvinToCelsius(tempK);
     return {
       temperature: temp,
-      displayTemperature: formatTemperature(temp, "C")
+      displayTemperature: formatTemperature(temp, "C"),
+      country: country
     }
   }
 }

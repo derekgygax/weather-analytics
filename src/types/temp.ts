@@ -1,5 +1,6 @@
 
 export interface TemperatureData {
+  country: string;
   temperature: number;
   displayTemperature: string;
 }
