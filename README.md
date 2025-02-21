@@ -4,6 +4,12 @@ A sleek and interactive weather analytics dashboard that fetches real-time and f
 
 ---
 
+## Live Demo
+[Weather Analytics](https://weather-analytics-eight.vercel.app/)
+
+
+---
+
 ## Features  
 
 - **Search & Display**: Enter a city name to fetch and display its current weather data.  
