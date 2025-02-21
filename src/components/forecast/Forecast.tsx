@@ -19,6 +19,7 @@ import { LineChartComponent } from '../lineChart/LineChart';
 
 // styles
 import styles from './Forecast.module.scss';
+import { CityUpdater } from "../cityUpdater/CityUpdater";
 
 const getCountryCityKey = (city: ForecastCity) => {
   return `${city.name}, ${city.country}`
@@ -76,6 +77,9 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         <LineChartComponent
           tempTimeDataByCity={tempTimeDataByCity}
         />
+      </section>
+      <section>
+        <CityUpdater />
       </section>
     </>
   )
