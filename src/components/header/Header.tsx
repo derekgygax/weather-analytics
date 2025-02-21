@@ -1,12 +1,13 @@
-import classNames from "classnames";
+
+
+// reducer
+import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // components
-import { SearchBar } from "../searchBar/SearchBar"
+import { CityUpdater } from "../cityUpdater/CityUpdater";
 
 // styles
 import styles from './Header.module.scss';
-import globalStyles from "@/styles/globals.module.scss";
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 interface HeaderProps {
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
@@ -15,17 +16,13 @@ interface HeaderProps {
 }
 
 export const Header = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: HeaderProps) => {
-
   return (
     <header className={styles.header}>
-      <div className={classNames(globalStyles.containerFullPage, styles.headerContent)}>
-        <SearchBar
-          weatherDispatcher={weatherDispatcher}
-          isCityWeatherLoading={isCityWeatherLoading}
-          setIsCityWeatherLoading={setIsCityWeatherLoading}
-          className={styles.searchBar}
-        />
-      </div>
+      <CityUpdater
+        weatherDispatcher={weatherDispatcher}
+        isCityWeatherLoading={isCityWeatherLoading}
+        setIsCityWeatherLoading={setIsCityWeatherLoading}
+      />
     </header>
   )
 }

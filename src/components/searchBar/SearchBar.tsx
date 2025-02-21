@@ -1,15 +1,6 @@
 import classNames from "classnames";
 import { useRef, useState } from "react";
 
-// utils
-import { capitalizeAsTitle } from "../../lib/utils";
-
-// reducer
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
-
-// components
-import { getWeatherByCity } from "../../lib/weatherApi";
-import { CityWeatherType } from "../../types/weatherTypes";
 import { SubmitFormButton } from "../submitFormButton/SubmitFormButton"
 import { Icon } from "../icon/Icon";
 
@@ -18,45 +9,29 @@ import styles from './SearchBar.module.scss';
 import globalStyles from '@/styles/globals.module.scss';
 
 interface SearchBarProps {
-  weatherDispatcher: React.Dispatch<WeatherReducerAction>;
   isCityWeatherLoading: boolean;
-  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
+  handleCityChange: (newCity: string) => Promise<boolean>;
 }
 
-export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading, className }: SearchBarProps) => {
+export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange }: SearchBarProps) => {
+
   const formRef = useRef<HTMLFormElement>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsCityWeatherLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const city = formData.get("city") as string;
-
-    try {
-      const cityWeather: CityWeatherType = await getWeatherByCity(city);
-      weatherDispatcher({
-        type: "changeCurrentCity",
-        payload: {
-          city: city,
-          data: cityWeather
-        }
-      });
-
+    const completed: boolean = await handleCityChange(city);
+    console.log(completed);
+    if (completed) {
       formRef.current?.reset();
-      setIsCityWeatherLoading(false);
-
-    } catch (err) {
-      setIsCityWeatherLoading(false);
-      const searchAgainMessage = "Please search again.";
-      if (typeof err === "object" && err !== null && "message" in err && "cod" in err) {
-        setErrorMessage(`${capitalizeAsTitle(err.message as string)}. ${searchAgainMessage}`);
-      } else {
-        setErrorMessage(`Failed to fetch weather data. ${searchAgainMessage}`);
-      }
-      console.error(err);
+      // Shouldn't ever need this but we are a little stitious
+      setError(false);
+    } else {
+      setError(true);
     }
   }
 
@@ -66,16 +41,16 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
         <input
           className={classNames(
             styles.input,
-            errorMessage ? styles.error : ""
+            error ? styles.error : ""
           )}
           type="text"
           name="city"
           placeholder="Enter City Name"
           onClick={() => {
-            setErrorMessage(null);
+            setError(false);
           }}
           onChange={() => {
-            setErrorMessage(null);
+            setError(false);
           }}
           required
         />
@@ -90,9 +65,6 @@ export const SearchBar = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWe
           disabled={isCityWeatherLoading}
         />
       </div>
-      {errorMessage && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
-      )}
     </form>
   )
 }
