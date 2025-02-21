@@ -44,7 +44,6 @@ export const CurrentWeather = ({ localCountry, city, currentWeather }: CurrentWe
             description: "It's pretty bleak without any weather",
             icon: "50d"
           }}
-
         />
         <AtmosphericDetail
           sunrise={currentWeather.sys.sunrise}
