@@ -1,6 +1,7 @@
+import classNames from 'classnames';
+import { useRef, useState } from 'react';
 
 // styles
-import { useRef } from 'react';
 import styles from './SerachHistory.module.scss';
 
 interface SearchHistoryProps {
@@ -12,26 +13,26 @@ interface SearchHistoryProps {
 export const SearchHistory = ({ currentCity, searchHistory, handleCityChange }: SearchHistoryProps) => {
 
   const selectorRef = useRef<HTMLSelectElement>(null);
+  const [error, setError] = useState<boolean>(false);
 
   const handleCitySelectorChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (selectorRef.current) {
+      selectorRef.current.blur();
+    }
+
     const citySelected = event.target.value;
     if (citySelected === currentCity) {
       return;
     }
 
-    // TODO!!
-    // TODO!!
-    // TODO!!
-    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
-    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
-    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
-    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
     const success: boolean = await handleCityChange(citySelected);
     if (success) {
+      setError(false);
       if (selectorRef.current) {
         selectorRef.current.value = "";
-        selectorRef.current.blur();
       }
+    } else {
+      setError(true);
     }
   };
 
@@ -41,13 +42,20 @@ export const SearchHistory = ({ currentCity, searchHistory, handleCityChange }: 
       <select
         ref={selectorRef}
         onChange={handleCitySelectorChange}
+        className={classNames(
+          styles.select,
+          error ? styles.error : ""
+        )}
+        onClick={() => {
+          setError(false);
+        }}
       >
         <option></option>
         {searchHistory.map((city: string, index: number) => {
           return (
             <option
               key={index}
-              className={styles.li}
+              className={styles.select__options}
             >
               {city}
             </option>
