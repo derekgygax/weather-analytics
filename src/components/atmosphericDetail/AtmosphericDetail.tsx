@@ -10,8 +10,8 @@ import styles from './AtmosphericDetail.module.scss';
 
 const getBrightnessThought = (sunrise: number, sunset: number) => {
   const now = Math.floor(Date.now() / 1000);
-  if (now < sunrise || now > sunset) return "Night";
-  return "Day";
+  if (now < sunrise || now > sunset) return "at Night";
+  return "by Day";
 };
 
 const getWindyIdea = (wind: { deg: number; gust: number; speed: number }) => {
@@ -45,7 +45,7 @@ interface AtmosphericDetailProps {
 
 export const AtmosphericDetail = ({ sunrise, sunset, timezoneOffset, wind }: AtmosphericDetailProps) => {
 
-  const title = `${getBrightnessThought(sunrise, sunset)} and ${getWindyIdea(wind)}`;
+  const title = `${getWindyIdea(wind)} ${getBrightnessThought(sunrise, sunset)}`;
 
   return (
     <WeatherDetailsBox
