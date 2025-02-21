@@ -14,7 +14,6 @@ import { Forecast } from "../../components/forecast/Forecast";
 
 // styles
 import styles from './HomePage.module.scss';
-import { SearchHistory } from "../../components/searchHistory/SearchHistory";
 
 interface HomePageProps {
   weatherState: WeatherState;
@@ -26,14 +25,6 @@ export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoad
 
   return (
     <main className={styles.main}>
-      <PageSection>
-        <SearchHistory
-          currentCity={weatherState.selectedCityWeather?.city}
-          searchHistory={weatherState.searchHistory}
-          weatherDispatcher={weatherDispatcher}
-          setIsCityWeatherLoading={setIsCityWeatherLoading}
-        />
-      </PageSection>
       <PageSection>
         {weatherState.selectedCityWeather ? (
           <CurrentWeather

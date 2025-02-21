@@ -25,7 +25,7 @@ const INITIAL_WEATHER: WeatherState = {
 }
 
 export const App = () => {
-  const [weather, weatherDispatcher] = useReducer(WeatherReducer, INITIAL_WEATHER);
+  const [weatherState, weatherDispatcher] = useReducer(WeatherReducer, INITIAL_WEATHER);
   const [isCityWeatherLoading, setIsCityWeatherLoading] = useState<boolean>(true);
 
   // Get the geolocation for where you are
@@ -54,6 +54,7 @@ export const App = () => {
   return (
     <>
       <Header
+        weatherState={weatherState}
         weatherDispatcher={weatherDispatcher}
         isCityWeatherLoading={isCityWeatherLoading}
         setIsCityWeatherLoading={setIsCityWeatherLoading}
@@ -66,7 +67,7 @@ export const App = () => {
         <HomePage
           weatherDispatcher={weatherDispatcher}
           setIsCityWeatherLoading={setIsCityWeatherLoading}
-          weatherState={weather}
+          weatherState={weatherState}
         />
       )}
     </>

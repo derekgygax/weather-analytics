@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 
 // types
-import { CityWeatherType } from "../../types/weatherTypes";
+import { CityWeatherType, WeatherState } from "../../types/weatherTypes";
 
 // lib
 import { getWeatherByCity } from "../../lib/weatherApi";
@@ -13,18 +13,20 @@ import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // components
 import { SearchBar } from "../searchBar/SearchBar";
+import { SearchHistory } from "../searchHistory/SearchHistory";
 
 // styles
 import styles from './CityUpdater.module.scss';
 import globalStyles from "@/styles/globals.module.scss";
 
 interface CityUpdaterProps {
+  weatherState: WeatherState;
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
   isCityWeatherLoading: boolean;
   setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CityUpdater = ({ weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: CityUpdaterProps) => {
+export const CityUpdater = ({ weatherState, weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: CityUpdaterProps) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -58,11 +60,21 @@ export const CityUpdater = ({ weatherDispatcher, isCityWeatherLoading, setIsCity
 
   return (
     <div className={classNames(globalStyles.containerFullPage, styles.cityUpdater)}>
-      <SearchBar
-        isCityWeatherLoading={isCityWeatherLoading}
-        className={styles.searchBar}
-        handleCityChange={handleCityChange}
-      />
+      <div className={styles.cityChangeContainer}>
+        <SearchBar
+          isCityWeatherLoading={isCityWeatherLoading}
+          className={styles.searchBar}
+          handleCityChange={handleCityChange}
+        />
+        {/* TODO THIS IS NOT!!! A GOOD WAY TO DO IT!!
+        YOU SHOULD NOT HAVE A CHECK HERE!!
+        FIX THIS LATER!! */}
+        <SearchHistory
+          currentCity={weatherState ? weatherState.selectedCityWeather?.city : undefined}
+          searchHistory={weatherState ? weatherState.searchHistory : []}
+          handleCityChange={handleCityChange}
+        />
+      </div>
       {errorMessage && (
         <p className={styles.errorMessage}>{errorMessage}</p>
       )}

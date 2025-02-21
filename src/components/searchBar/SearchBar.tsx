@@ -25,7 +25,6 @@ export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange }:
     const formData = new FormData(e.currentTarget);
     const city = formData.get("city") as string;
     const completed: boolean = await handleCityChange(city);
-    console.log(completed);
     if (completed) {
       formRef.current?.reset();
       // Shouldn't ever need this but we are a little stitious

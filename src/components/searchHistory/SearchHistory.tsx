@@ -1,66 +1,59 @@
 
-// types
-import { CityWeatherType } from '../../types/weatherTypes';
-
-// utils
-import { getWeatherByCity } from '../../lib/weatherApi';
-
-// reducer
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
-
 // styles
+import { useRef } from 'react';
 import styles from './SerachHistory.module.scss';
 
 interface SearchHistoryProps {
   currentCity: string | undefined;
-  weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
   searchHistory: string[];
+  handleCityChange: (newCity: string) => Promise<boolean>;
 }
 
-export const SearchHistory = ({ currentCity, searchHistory, weatherDispatcher, setIsCityWeatherLoading }: SearchHistoryProps) => {
+export const SearchHistory = ({ currentCity, searchHistory, handleCityChange }: SearchHistoryProps) => {
 
-  // we keep it just as history here in case we 
-  //  want history as an object later. easier to change
-  const handleHistoryClick = async (history: string) => {
-    if (history === currentCity) {
+  const selectorRef = useRef<HTMLSelectElement>(null);
+
+  const handleCitySelectorChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const citySelected = event.target.value;
+    if (citySelected === currentCity) {
       return;
     }
-    setIsCityWeatherLoading(true);
-    try {
-      const cityWeather: CityWeatherType = await getWeatherByCity(history);
 
-      weatherDispatcher({
-        type: "changeCurrentCity",
-        payload: {
-          city: history,
-          data: cityWeather
-        }
-      });
-      setIsCityWeatherLoading(false);
-    } catch (err) {
-      setIsCityWeatherLoading(false);
-      console.error(err);
+    // TODO!!
+    // TODO!!
+    // TODO!!
+    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
+    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
+    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
+    // MAYBE YOU NEED TO PUT A ELSE IN HERE!!!
+    const success: boolean = await handleCityChange(citySelected);
+    if (success) {
+      if (selectorRef.current) {
+        selectorRef.current.value = "";
+        selectorRef.current.blur();
+      }
     }
   };
 
   return (
-    <section>
-      <ul className={styles.ul}>
-        {searchHistory.map((history: string, index: number) => {
+    <div>
+      <h4>Search History</h4>
+      <select
+        ref={selectorRef}
+        onChange={handleCitySelectorChange}
+      >
+        <option></option>
+        {searchHistory.map((city: string, index: number) => {
           return (
-            <li
+            <option
               key={index}
               className={styles.li}
-              onClick={() => {
-                handleHistoryClick(history)
-              }}
             >
-              {history}
-            </li>
+              {city}
+            </option>
           )
         })}
-      </ul>
-    </section>
+      </select>
+    </div>
   )
 }
