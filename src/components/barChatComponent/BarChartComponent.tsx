@@ -58,7 +58,16 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
         >
           <XAxis dataKey="date" />
 
-          <YAxis />
+          <YAxis
+            domain={[0, 100]}
+            tickFormatter={(tick) => `${tick}%`}
+            label={{
+              value: "Rain Probability (%)",
+              angle: -90,
+              position: "insideLeft",
+              style: { textAnchor: "middle", fill: "#666", fontSize: "14px" },
+            }}
+          />
 
           <Tooltip content={<CustomTooltip />} />
           <Legend content={<CustomLegend />} />

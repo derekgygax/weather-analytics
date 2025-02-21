@@ -13,9 +13,10 @@ import { FAHRENHEIT_COUNTRIES } from "../../lib/utils";
 
 interface LineChartComponentProps {
   tempTimeDataByCity: TempTimeByCity;
+  localCountry: string;
 }
 
-export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentProps) => {
+export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineChartComponentProps) => {
   return (
     <GridItem title="Temperature">
       <ResponsiveContainer width="100%" height="100%">
@@ -31,7 +32,16 @@ export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentPro
             domain={['dataMin', 'dataMax']}
             tickFormatter={(tick) => new Date(tick).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           />
-          <YAxis />
+          <YAxis
+            domain={['auto', 'auto']}
+            tickFormatter={(tick) => `${tick}°`}
+            label={{
+              value: `Temperature ${FAHRENHEIT_COUNTRIES.includes(localCountry) ? "°F" : "°C"}`,
+              angle: -90,
+              position: "insideLeft",
+              style: { textAnchor: "middle", fill: "#666", fontSize: "14px" },
+            }}
+          />
           <Tooltip content={<CustomTooltip />} />
           <Legend content={<CustomLegend />} />
           {/* Lines for each city */}

@@ -147,6 +147,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         <div className={styles.charts}>
           <LineChartComponent
             tempTimeDataByCity={tempTimeDataByCity}
+            localCountry={localCountry}
           />
           <BarChartComponent
             rainDataByCity={rainDataByCity}

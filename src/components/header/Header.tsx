@@ -1,4 +1,4 @@
-
+import classNames from "classnames";
 
 // types
 import { CityWeatherType } from "../../types/weatherTypes";
@@ -33,7 +33,7 @@ export const Header = ({ currentCity, searchHistory, weatherDispatcher }: Header
 
   return (
     <header className={styles.header}>
-      <div className={globalStyles.containerFullPage}>
+      <div className={classNames(globalStyles.containerFullPage, styles.cityUpdaterContainer)}>
         <CityUpdater
           currentCity={currentCity}
           searchHistory={searchHistory}
