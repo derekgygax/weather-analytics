@@ -11,9 +11,11 @@ import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 // layouts
 import { Title } from '../../layouts/title/Title';
 
+// components
+import { LineChartComponent } from '../lineChart/LineChart';
+
 // styles
 import styles from './Forecast.module.scss';
-import { LineChart } from '../lineChart/LineChart';
 
 interface ForecastProps {
   weatherState: WeatherState;
@@ -34,7 +36,8 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
       THE ERROR CATCHING!! */}
       {weatherState.selectedCityWeather ? (
         <section className={styles.chartsContainer}>
-          <LineChart
+          <LineChartComponent
+            localCountry={weatherState.localCountry}
             currentCityForecast={weatherState.selectedCityWeather.data.forecast}
           />
         </section>

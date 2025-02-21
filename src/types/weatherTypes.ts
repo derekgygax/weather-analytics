@@ -45,15 +45,17 @@ export interface CurrentWeatherType {
   name: string;
 }
 
-export interface ForecastWeatherType {
-  city: {
-    name: string;
-    country: string;
-    coord: {
-      lat: number;
-      lon: number;
-    };
+export interface ForecastCity {
+  name: string;
+  country: string;
+  coord: {
+    lat: number;
+    lon: number;
   };
+}
+
+export interface ForecastWeatherType {
+  city: ForecastCity;
   list: {
     dt: number;
     main: TempHumidPressureType;

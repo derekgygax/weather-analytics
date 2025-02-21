@@ -1,3 +1,5 @@
+import { TemperatureData } from "../types/commonTypes";
+
 const WORDS_EXCLUDED_FROM_TITLE_CASE = [
   "a", "an", "and", "as", "at", "but", "by", "for", "if", "in",
   "nor", "of", "on", "or", "so", "the", "to", "up", "yet", "with"
@@ -22,6 +24,22 @@ export const getTempValueString = (tempK: number, country: string) => {
     return formatTemperature(kelvinToFahrenheit(tempK), "F");
   } else {
     return formatTemperature(kelvinToCelsius(tempK), "C");
+  }
+}
+
+export const getTempDataFormattedCountry = (tempK: number, country: string): TemperatureData => {
+  if (FAHRENHEIT_COUNTRIES.includes(country)) {
+    const temp = kelvinToFahrenheit(tempK);
+    return {
+      temperature: temp,
+      displayTemperature: formatTemperature(temp, "F")
+    }
+  } else {
+    const temp = kelvinToCelsius(tempK);
+    return {
+      temperature: temp,
+      displayTemperature: formatTemperature(temp, "C")
+    }
   }
 }
 
