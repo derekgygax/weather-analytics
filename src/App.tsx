@@ -52,7 +52,8 @@ export const App = () => {
   return (
     <>
       <Header
-        weatherState={weatherState}
+        currentCity={weatherState.selectedCityWeather?.city}
+        searchHistory={weatherState.searchHistory}
         weatherDispatcher={weatherDispatcher}
       />
       <HomePage

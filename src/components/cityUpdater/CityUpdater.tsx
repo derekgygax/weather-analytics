@@ -2,13 +2,10 @@ import classNames from "classnames";
 import { useState } from "react";
 
 // types
-import { CityWeatherType, WeatherState } from "../../types/weatherTypes";
+import { CityWeatherType } from "../../types/weatherTypes";
 
 // lib
 import { getWeatherByCity } from "../../lib/weatherApi";
-
-// reducer
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // components
 import { SearchBar } from "../searchBar/SearchBar";
@@ -20,11 +17,12 @@ import globalStyles from "@/styles/globals.module.scss";
 import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
 
 interface CityUpdaterProps {
-  weatherState: WeatherState;
+  currentCity: string | undefined;
+  searchHistory: string[];
   handleNewCityWeather: (cityWeather: CityWeatherType) => void;
 }
 
-export const CityUpdater = ({ weatherState, handleNewCityWeather }: CityUpdaterProps) => {
+export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather }: CityUpdaterProps) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>("");
@@ -56,8 +54,8 @@ export const CityUpdater = ({ weatherState, handleNewCityWeather }: CityUpdaterP
           handleCityChange={handleCityChange}
         />
         <SearchHistory
-          currentCity={weatherState ? weatherState.selectedCityWeather?.city : undefined}
-          searchHistory={weatherState ? weatherState.searchHistory : []}
+          currentCity={currentCity}
+          searchHistory={searchHistory}
           handleCityChange={handleCityChange}
           className={styles.searchHistory}
         />

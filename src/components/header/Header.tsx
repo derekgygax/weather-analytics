@@ -13,11 +13,12 @@ import { CityUpdater } from "../cityUpdater/CityUpdater";
 import styles from './Header.module.scss';
 
 interface HeaderProps {
-  weatherState: WeatherState;
+  currentCity: string | undefined;
+  searchHistory: string[]
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
 }
 
-export const Header = ({ weatherState, weatherDispatcher }: HeaderProps) => {
+export const Header = ({ currentCity, searchHistory, weatherDispatcher }: HeaderProps) => {
 
   const handleNewCityWeather = (cityWeather: CityWeatherType) => {
     weatherDispatcher({
@@ -32,7 +33,8 @@ export const Header = ({ weatherState, weatherDispatcher }: HeaderProps) => {
   return (
     <header className={styles.header}>
       <CityUpdater
-        weatherState={weatherState}
+        currentCity={currentCity}
+        searchHistory={searchHistory}
         handleNewCityWeather={handleNewCityWeather}
       />
     </header>
