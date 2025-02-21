@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useState } from "react";
+import { useReducer, useEffect } from "react";
 
 // types
 import { WeatherState } from "./types/weatherTypes";

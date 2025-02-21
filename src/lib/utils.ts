@@ -1,4 +1,4 @@
-import { TemperatureData } from "../types/commonTypes";
+import { TemperatureData } from "../types/temp";
 
 const WORDS_EXCLUDED_FROM_TITLE_CASE = [
   "a", "an", "and", "as", "at", "but", "by", "for", "if", "in",

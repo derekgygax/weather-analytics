@@ -1,7 +1,7 @@
 
 
 // types
-import { CityWeatherType, WeatherState } from "../../types/weatherTypes";
+import { CityWeatherType } from "../../types/weatherTypes";
 
 // reducer
 import { WeatherReducerAction } from "../../reducers/WeatherReducer";

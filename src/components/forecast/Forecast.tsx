@@ -51,6 +51,10 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
 
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
 
+  const handleNewCityWeather = () => {
+
+  }
+
   useEffect(() => {
     if (!currentCityForecast) {
       return;
@@ -78,7 +82,11 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         />
       </section>
       <section>
-        {/* <CityUpdater /> */}
+        <CityUpdater
+          handleNewCityWeather={handleNewCityWeather}
+          currentCity={weatherState.selectedCityWeather?.city}
+          searchHistory={weatherState.searchHistory}
+        />
       </section>
     </>
   )
