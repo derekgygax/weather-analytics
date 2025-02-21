@@ -18,3 +18,15 @@
 .searchBarInput {
   border: 2px solid $accent-color !important;
 }
+
+.tab {
+  font-size: 0.75rem !important;
+
+  @media (min-width: 600px) {
+    font-size: 0.875rem !important;
+  }
+
+  @media (min-width: 900px) {
+    font-size: 1rem !important;
+  }
+}

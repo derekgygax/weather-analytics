@@ -185,9 +185,9 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
       <section>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
           <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} aria-label="forecast chart tabs">
-            <Tab label="Temperature" />
-            <Tab label="Precipitation" />
-            <Tab label="Sky Coverage" />
+            <Tab label="Temperature" className={styles.tab} />
+            <Tab label="Precipitation" className={styles.tab} />
+            <Tab label="Sky Coverage" className={styles.tab} />
           </Tabs>
         </Box>
         <div className={styles.charts}>
