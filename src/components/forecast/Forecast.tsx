@@ -42,7 +42,6 @@ const getHourlyTemperatureData = (localCountry: string, forecast: ForecastWeathe
 interface ForecastProps {
   weatherState: WeatherState;
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Forecast = ({ weatherState }: ForecastProps) => {
@@ -79,7 +78,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         />
       </section>
       <section>
-        <CityUpdater />
+        {/* <CityUpdater /> */}
       </section>
     </>
   )

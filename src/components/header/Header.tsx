@@ -15,11 +15,9 @@ import styles from './Header.module.scss';
 interface HeaderProps {
   weatherState: WeatherState;
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-  isCityWeatherLoading: boolean;
-  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Header = ({ weatherState, weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: HeaderProps) => {
+export const Header = ({ weatherState, weatherDispatcher }: HeaderProps) => {
 
   const handleNewCityWeather = (cityWeather: CityWeatherType) => {
     weatherDispatcher({
@@ -35,8 +33,6 @@ export const Header = ({ weatherState, weatherDispatcher, isCityWeatherLoading, 
     <header className={styles.header}>
       <CityUpdater
         weatherState={weatherState}
-        isCityWeatherLoading={isCityWeatherLoading}
-        setIsCityWeatherLoading={setIsCityWeatherLoading}
         handleNewCityWeather={handleNewCityWeather}
       />
     </header>

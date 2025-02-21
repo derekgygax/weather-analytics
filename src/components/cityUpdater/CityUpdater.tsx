@@ -21,28 +21,27 @@ import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
 
 interface CityUpdaterProps {
   weatherState: WeatherState;
-  isCityWeatherLoading: boolean;
-  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
   handleNewCityWeather: (cityWeather: CityWeatherType) => void;
 }
 
-export const CityUpdater = ({ weatherState, isCityWeatherLoading, setIsCityWeatherLoading, handleNewCityWeather }: CityUpdaterProps) => {
+export const CityUpdater = ({ weatherState, handleNewCityWeather }: CityUpdaterProps) => {
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>("");
 
   const handleCityChange = async (newCity: string): Promise<boolean> => {
-    setIsCityWeatherLoading(true);
+    setIsLoading(true);
     setMessage(`Loading ${newCity}`);
 
     try {
       const cityWeather: CityWeatherType = await getWeatherByCity(newCity);
       handleNewCityWeather(cityWeather);
-      setIsCityWeatherLoading(false);
+      setIsLoading(false);
       setMessage("");
       return true;
     } catch (err) {
       console.error(err);
-      setIsCityWeatherLoading(false);
+      setIsLoading(false);
       setMessage(`Failed to fetch weather for ${newCity}. Please search again.`);
       return false;
     }
@@ -52,7 +51,7 @@ export const CityUpdater = ({ weatherState, isCityWeatherLoading, setIsCityWeath
     <div className={classNames(globalStyles.containerFullPage, styles.cityUpdater)}>
       <div className={styles.cityChangeContainer}>
         <SearchBar
-          isCityWeatherLoading={isCityWeatherLoading}
+          isCityWeatherLoading={isLoading}
           className={styles.searchBar}
           handleCityChange={handleCityChange}
         />
@@ -65,7 +64,7 @@ export const CityUpdater = ({ weatherState, isCityWeatherLoading, setIsCityWeath
       </div>
       <div className={styles.messageContainer}>
         {message && (
-          isCityWeatherLoading ? (
+          isLoading ? (
             <LoadingSpinner loadingText={message} />
           ) : (
             <p className={styles.message}>{message}</p>

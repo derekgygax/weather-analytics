@@ -18,10 +18,9 @@ import styles from './HomePage.module.scss';
 interface HomePageProps {
   weatherState: WeatherState;
   weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-  setIsCityWeatherLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoading }: HomePageProps) => {
+export const HomePage = ({ weatherState, weatherDispatcher }: HomePageProps) => {
 
   return (
     <main className={styles.main}>
@@ -38,7 +37,6 @@ export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoad
             <Forecast
               weatherState={weatherState}
               weatherDispatcher={weatherDispatcher}
-              setIsCityWeatherLoading={setIsCityWeatherLoading}
             />
           </PageSection>
         </>

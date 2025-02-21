@@ -15,7 +15,6 @@ import { HomePage } from "./pages/homePage/HomePage";
 
 // components
 import { Header } from "./components/header/Header";
-import { LoadingSpinner } from "./components/loadingSpinner/LoadingSpinner";
 
 // reducer initial state
 const INITIAL_WEATHER: WeatherState = {
@@ -26,7 +25,6 @@ const INITIAL_WEATHER: WeatherState = {
 
 export const App = () => {
   const [weatherState, weatherDispatcher] = useReducer(WeatherReducer, INITIAL_WEATHER);
-  const [isCityWeatherLoading, setIsCityWeatherLoading] = useState<boolean>(true);
 
   // Get the geolocation for where you are
   useEffect(() => {
@@ -45,7 +43,7 @@ export const App = () => {
         // TODO do more!
         console.error(error);
       } finally {
-        setIsCityWeatherLoading(false)
+        // setIsCityWeatherLoading(false)
       }
     }
     getLocal();
@@ -56,12 +54,9 @@ export const App = () => {
       <Header
         weatherState={weatherState}
         weatherDispatcher={weatherDispatcher}
-        isCityWeatherLoading={isCityWeatherLoading}
-        setIsCityWeatherLoading={setIsCityWeatherLoading}
       />
       <HomePage
         weatherDispatcher={weatherDispatcher}
-        setIsCityWeatherLoading={setIsCityWeatherLoading}
         weatherState={weatherState}
       />
     </>
