@@ -2,11 +2,11 @@ import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } f
 
 import { TempTimeByCity } from "../../types/temp";
 
-interface LineChartProps {
+interface LineChartComponentProps {
   tempTimeDataByCity: TempTimeByCity;
 }
 
-export const LineChartComponent = ({ tempTimeDataByCity }: LineChartProps) => {
+export const LineChartComponent = ({ tempTimeDataByCity }: LineChartComponentProps) => {
 
   return (
     <ResponsiveContainer width="100%" height={400}>
