@@ -86,6 +86,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   const localCountry: string = weatherState.localCountry;
   const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
 
+  const [currentCityCountryKey, setCurrentCityCountryKey] = useState<string>("");
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
   const [rainDataByCity, setRainDataByCity] = useState<RainDataByCity>({});
   const [cloudCoverageDataByCity, setCloudCoverageDataByCity] = useState<CloudCoverageDataByCity>({});
@@ -94,20 +95,33 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   const handleNewCityWeather = (newCityWeather: CityWeatherType) => {
     const cityCountryKey = getCountryCityKey(newCityWeather.forecast.city);
     setTempTimeDataByCity((prevState) => {
-      if (Object.values(prevState).length === 3) {
+      if (Object.keys(prevState).length === 3) {
+        const cities = Object.keys(prevState);
+        const cityToRemove = cities.find((city) => city !== currentCityCountryKey) || cities[0];
+
+        const { [cityToRemove]: _, ...remainingCities } = prevState;
+
         return {
-          ...prevState
+          ...remainingCities,
+          [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast),
         };
       }
+
       return {
         ...prevState,
-        [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast)
-      }
+        [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast),
+      };
     });
+
     setRainDataByCity((prevState) => {
       if (Object.values(prevState).length === 3) {
+        const cities = Object.keys(prevState);
+        const cityToRemove = cities.find((city) => city !== currentCityCountryKey) || cities[0];
+        const { [cityToRemove]: _, ...remainingCities } = prevState;
+
         return {
-          ...prevState
+          ...remainingCities,
+          [cityCountryKey]: getRainProbabilityData(newCityWeather.forecast),
         };
       }
       return {
@@ -117,8 +131,13 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
     });
     setCloudCoverageDataByCity((prevState) => {
       if (Object.values(prevState).length === 3) {
+        const cities = Object.keys(prevState);
+        const cityToRemove = cities.find((city) => city !== currentCityCountryKey) || cities[0];
+        const { [cityToRemove]: _, ...remainingCities } = prevState;
+
         return {
-          ...prevState
+          ...remainingCities,
+          [cityCountryKey]: getCloudCoverageData(newCityWeather.forecast),
         };
       }
       return {
@@ -134,6 +153,8 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
     }
 
     const currentCityCountryKey = getCountryCityKey(currentCityForecast.city);
+
+    setCurrentCityCountryKey(currentCityCountryKey);
 
     setTempTimeDataByCity({
       [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
