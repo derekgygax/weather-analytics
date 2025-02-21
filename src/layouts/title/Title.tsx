@@ -1,6 +1,5 @@
 import classNames from "classnames";
 
-// TODO THIS is NOT needed but VS Code complains if I don't have it
 import { JSX } from "react";
 
 // styles

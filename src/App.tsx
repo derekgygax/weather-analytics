@@ -40,10 +40,7 @@ export const App = () => {
           }
         });
       } catch (error) {
-        // TODO do more!
         console.error(error);
-      } finally {
-        // setIsCityWeatherLoading(false)
       }
     }
     getLocal();

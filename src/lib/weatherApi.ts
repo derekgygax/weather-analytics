@@ -44,10 +44,6 @@ export const getWeatherByCity = async (city: string): Promise<CityWeatherType> =
   }
 };
 
-// TODO NEEDS BETTER ERROR REPORTING!!!
-// TODO NEEDS BETTER ERROR REPORTING!!!
-// TODO NEEDS BETTER ERROR REPORTING!!!
-// TODO NEEDS BETTER ERROR REPORTING!!!
 const getWeatherByLongLat = async (latitude: number, longitude: number): Promise<CityWeatherType> => {
   try {
     const types: WeatherType[] = ["weather", "forecast"];

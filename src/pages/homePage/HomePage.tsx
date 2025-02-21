@@ -41,10 +41,9 @@ export const HomePage = ({ weatherState, weatherDispatcher }: HomePageProps) => 
           </PageSection>
         </>
       ) : (
-        // TODO MAKE THIS BETTER
         <>
-          <h1 className={styles.noCurrent}>The Current Location Did Not Load</h1>
-          <h2 className={styles.noCurrent}>Please Search</h2>
+          <h1 className={styles.noCurrent}>Unable to Load Your Current Location</h1>
+          <h2 className={styles.noCurrent}>Please search for a city to view its weather data</h2>
         </>
       )}
     </main>
