@@ -1,4 +1,5 @@
 export interface CloudCoverageData {
+  city: string;
   name: string;
   value: number;
 }

@@ -30,9 +30,7 @@ const getCountryCityKey = (city: ForecastCity) => {
 }
 
 const getHourlyTemperatureData = (localCountry: string, forecast: ForecastWeatherType): TemperatureTimeData[] => {
-  // The API returns 3 hour increments so 8 for
-  // 24 hours
-  return forecast.list.slice(0, 8).map(entry => ({
+  return forecast.list.map(entry => ({
     time: entry.dt * 1000,
     displayTime: new Date(entry.dt * 1000).toLocaleString([], {
       month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true
@@ -61,8 +59,6 @@ const getRainProbabilityData = (forecast: ForecastWeatherType): RainData[] => {
   }));
 };
 
-
-
 const getCloudCoverageData = (forecast: ForecastWeatherType): CloudCoverageData[] => {
   const conditionCounts: Record<string, number> = {};
 
@@ -74,14 +70,11 @@ const getCloudCoverageData = (forecast: ForecastWeatherType): CloudCoverageData[
   const totalHours = forecast.list.length;
 
   return Object.entries(conditionCounts).map(([condition, count]) => ({
+    city: forecast.city.name,
     name: condition,
     value: Math.round((count / totalHours) * 100),
   }));
 };
-
-
-
-
 
 interface ForecastProps {
   weatherState: WeatherState;
@@ -141,7 +134,6 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
 
 
   }, [localCountry, currentCityForecast]);
-  console.log(rainDataByCity);
 
   return (
     <>

@@ -1,6 +1,6 @@
 
 
-import { PieChart, Pie, ResponsiveContainer, Tooltip, Legend, Cell, LegendProps } from "recharts";
+import { PieChart, Pie, ResponsiveContainer, Tooltip, Legend, Cell, LegendProps, TooltipProps } from "recharts";
 
 // types
 import { CloudCoverageDataByCity } from "../../types/cloudCoverage"
@@ -41,9 +41,9 @@ export const PieChartComponent = ({ cloudCoverageDataByCity }: PieChartComponent
           width={500}
           height={400}
         >
-          <Tooltip formatter={(value) => `${value}%`} />
+          <Tooltip content={<CustomTooltip />} />
           <Legend content={<CustomLegend />} />
-          {Object.entries(cloudCoverageDataByCity).map(([_, cloudData], index) => (
+          {Object.entries(cloudCoverageDataByCity).map(([city, cloudData], index) => (
             <Pie
               key={index}
               data={cloudData}
@@ -66,7 +66,24 @@ export const PieChartComponent = ({ cloudCoverageDataByCity }: PieChartComponent
   );
 };
 
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (!active || !payload || payload.length === 0) return null;
 
+  const cityName = payload[0]?.payload?.city ?? "Unknown City";
+  const weatherType = payload[0]?.name ?? "Unknown";
+  const value = payload[0]?.value ?? 0;
+  const color = payload[0]?.payload.fill ?? "#8884d8";
+
+  return (
+    <div className={styles.tooltip} style={{ borderColor: color }} role="tooltip">
+      <h3 className={styles.cityName}>{cityName}</h3>
+      <p className={styles.data}>
+        <span className={styles.weatherType}>{`${weatherType}: `}</span>
+        <span className={styles.value}>{value}%</span>
+      </p>
+    </div>
+  );
+};
 
 const CustomLegend = ({ payload }: LegendProps) => {
   if (!payload) return null;
