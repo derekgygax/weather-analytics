@@ -11,6 +11,7 @@ import { CityUpdater } from "../cityUpdater/CityUpdater";
 
 // styles
 import styles from './Header.module.scss';
+import globalStyles from "@/styles/globals.module.scss";
 
 interface HeaderProps {
   currentCity: string | undefined;
@@ -32,11 +33,13 @@ export const Header = ({ currentCity, searchHistory, weatherDispatcher }: Header
 
   return (
     <header className={styles.header}>
-      <CityUpdater
-        currentCity={currentCity}
-        searchHistory={searchHistory}
-        handleNewCityWeather={handleNewCityWeather}
-      />
+      <div className={globalStyles.containerFullPage}>
+        <CityUpdater
+          currentCity={currentCity}
+          searchHistory={searchHistory}
+          handleNewCityWeather={handleNewCityWeather}
+        />
+      </div>
     </header>
   )
 }

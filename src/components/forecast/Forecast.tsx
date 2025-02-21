@@ -62,10 +62,16 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
     const currentCityCountryKey = getCountryCityKey(currentCityForecast.city);
 
     setTempTimeDataByCity({
-      ...tempTimeDataByCity,
       [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
-    })
+    });
 
+    // This is cool because it adds cities as 
+    // you search for more. Proves it takes on more data
+    // BUTTTTT no right now
+    // setTempTimeDataByCity({
+    //   ...tempTimeDataByCity,
+    //   [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
+    // })
   }, [localCountry, currentCityForecast]);
 
   return (
@@ -80,9 +86,8 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         <LineChartComponent
           tempTimeDataByCity={tempTimeDataByCity}
         />
-      </section>
-      <section>
         <CityUpdater
+          title="Add Cities to the Graphs"
           handleNewCityWeather={handleNewCityWeather}
           currentCity={weatherState.selectedCityWeather?.city}
           searchHistory={weatherState.searchHistory}

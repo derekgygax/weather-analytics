@@ -10,19 +10,19 @@ import { getWeatherByCity } from "../../lib/weatherApi";
 // components
 import { SearchBar } from "../searchBar/SearchBar";
 import { SearchHistory } from "../searchHistory/SearchHistory";
+import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
 
 // styles
 import styles from './CityUpdater.module.scss';
-import globalStyles from "@/styles/globals.module.scss";
-import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
 
 interface CityUpdaterProps {
   currentCity: string | undefined;
   searchHistory: string[];
   handleNewCityWeather: (cityWeather: CityWeatherType) => void;
+  title?: string;
 }
 
-export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather }: CityUpdaterProps) => {
+export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, title }: CityUpdaterProps) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>("");
@@ -46,7 +46,10 @@ export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather }
   }
 
   return (
-    <div className={classNames(globalStyles.containerFullPage, styles.cityUpdater)}>
+    <div className={classNames(styles.cityUpdater)}>
+      {title && (
+        <h2 className={styles.title}>{title}</h2>
+      )}
       <div className={styles.cityChangeContainer}>
         <SearchBar
           isCityWeatherLoading={isLoading}
