@@ -12,7 +12,7 @@ import { GridItem } from "../../layouts/gridItem/GridItem";
 import styles from './PieChartComponent.module.scss';
 
 const colorMap: Record<string, string> = {
-  Clouds: "#8884d8",  // Purple
+  Clouds: "#00a8e8",  // Brighter aqua blue 
   Clear: "#00C49F",   // Teal
   Rain: "#FFBB28",    // Yellow-Orange
   Snow: "#A0E0FF",    // Light Blue
