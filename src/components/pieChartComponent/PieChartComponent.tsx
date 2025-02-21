@@ -43,7 +43,7 @@ export const PieChartComponent = ({ cloudCoverageDataByCity }: PieChartComponent
         >
           <Tooltip content={<CustomTooltip />} />
           <Legend content={<CustomLegend />} />
-          {Object.entries(cloudCoverageDataByCity).map(([city, cloudData], index) => (
+          {Object.entries(cloudCoverageDataByCity).map(([_, cloudData], index, array) => (
             <Pie
               key={index}
               data={cloudData}
@@ -53,7 +53,7 @@ export const PieChartComponent = ({ cloudCoverageDataByCity }: PieChartComponent
               cy="50%"
               innerRadius={index * 20 + 20}
               outerRadius={index * 20 + 40}
-              label={index === Object.keys(cloudCoverageDataByCity).length - 1}
+              label={index === array.length - 1 ? ({ value }) => `${value}%` : undefined}
             >
               {cloudData.map((entry, i) => (
                 <Cell key={`cell-${i}`} fill={colorMap[entry.name] || "#8884d8"} />
