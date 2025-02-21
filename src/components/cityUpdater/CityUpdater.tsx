@@ -20,9 +20,10 @@ interface CityUpdaterProps {
   searchHistory: string[];
   handleNewCityWeather: (cityWeather: CityWeatherType) => void;
   title?: string;
+  className?: string;
 }
 
-export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, title }: CityUpdaterProps) => {
+export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, title, className }: CityUpdaterProps) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>("");
@@ -46,11 +47,11 @@ export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, 
   }
 
   return (
-    <div className={classNames(styles.cityUpdater)}>
+    <div className={classNames(styles.cityUpdater, className)}>
       {title && (
         <h2 className={styles.title}>{title}</h2>
       )}
-      <div className={styles.cityChangeContainer}>
+      <div className={classNames(styles.cityChangeContainer)}>
         <SearchBar
           isCityWeatherLoading={isLoading}
           className={styles.searchBar}
