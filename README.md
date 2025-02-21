@@ -27,7 +27,7 @@ A sleek and interactive weather analytics dashboard that fetches real-time and f
 
 - **Frontend**: React 19 + Vite  
 - **Styling**: SCSS Modules  
-- **Charting Library**: *(Specify once chosen: Chart.js, Recharts, etc.)*  
+- **Charting Library**: Recharts
 - **API**: OpenWeather API  
 - **Linting & Formatting**: ESLint  
 
