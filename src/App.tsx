@@ -59,17 +59,11 @@ export const App = () => {
         isCityWeatherLoading={isCityWeatherLoading}
         setIsCityWeatherLoading={setIsCityWeatherLoading}
       />
-      {isCityWeatherLoading ? (
-        <LoadingSpinner
-          loadingText="Retrieving City Weather"
-        />
-      ) : (
-        <HomePage
-          weatherDispatcher={weatherDispatcher}
-          setIsCityWeatherLoading={setIsCityWeatherLoading}
-          weatherState={weatherState}
-        />
-      )}
+      <HomePage
+        weatherDispatcher={weatherDispatcher}
+        setIsCityWeatherLoading={setIsCityWeatherLoading}
+        weatherState={weatherState}
+      />
     </>
   )
 }

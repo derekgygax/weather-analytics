@@ -6,7 +6,6 @@ import { CityWeatherType, WeatherState } from "../../types/weatherTypes";
 
 // lib
 import { getWeatherByCity } from "../../lib/weatherApi";
-import { capitalizeAsTitle } from "../../lib/utils";
 
 // reducer
 import { WeatherReducerAction } from "../../reducers/WeatherReducer";
@@ -18,6 +17,7 @@ import { SearchHistory } from "../searchHistory/SearchHistory";
 // styles
 import styles from './CityUpdater.module.scss';
 import globalStyles from "@/styles/globals.module.scss";
+import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
 
 interface CityUpdaterProps {
   weatherState: WeatherState;
@@ -28,10 +28,11 @@ interface CityUpdaterProps {
 
 export const CityUpdater = ({ weatherState, weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: CityUpdaterProps) => {
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>("");
 
   const handleCityChange = async (newCity: string): Promise<boolean> => {
     setIsCityWeatherLoading(true);
+    setMessage(`Loading ${newCity}`);
 
     try {
       const cityWeather: CityWeatherType = await getWeatherByCity(newCity);
@@ -44,16 +45,12 @@ export const CityUpdater = ({ weatherState, weatherDispatcher, isCityWeatherLoad
       });
 
       setIsCityWeatherLoading(false);
+      setMessage("");
       return true;
     } catch (err) {
-      setIsCityWeatherLoading(false);
-      const searchAgainMessage = "Please search again.";
-      if (typeof err === "object" && err !== null && "message" in err && "cod" in err) {
-        setErrorMessage(`${capitalizeAsTitle(err.message as string)}. ${searchAgainMessage}`);
-      } else {
-        setErrorMessage(`Failed to fetch weather data. ${searchAgainMessage}`);
-      }
       console.error(err);
+      setIsCityWeatherLoading(false);
+      setMessage(`Failed to fetch weather for ${newCity}. Please search again.`);
       return false;
     }
   }
@@ -75,9 +72,20 @@ export const CityUpdater = ({ weatherState, weatherDispatcher, isCityWeatherLoad
           handleCityChange={handleCityChange}
         />
       </div>
-      {errorMessage && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
-      )}
+      {/* <LoadingSpinner
+        loadingText="Leoadiasdf"
+      /> */}
+      <div className={styles.messageContainer}>
+        {message && (
+          isCityWeatherLoading ? (
+            <LoadingSpinner
+              loadingText={message}
+            />
+          ) : (
+            <p className={styles.message}>{message}</p>
+          )
+        )}
+      </div>
     </div>
   )
 }

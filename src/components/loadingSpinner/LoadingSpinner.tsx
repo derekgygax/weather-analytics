@@ -1,16 +1,21 @@
+import classNames from 'classnames';
 
 // styles
 import styles from './LoadingSpinner.module.scss';
 
 interface LoadingSpinnerProps {
-  loadingText: string
+  loadingText: string;
+  isDark?: boolean;
 }
 
-export const LoadingSpinner = ({ loadingText }: LoadingSpinnerProps) => {
+export const LoadingSpinner = ({ loadingText, isDark }: LoadingSpinnerProps) => {
   return (
     <div className={styles.loadingSpinner}>
       <p className={styles.loadingSpinner__text}>{`${loadingText}...`}</p>
-      <div className={styles.loadingSpinner__circle}></div>
+      <div className={classNames(
+        styles.loadingSpinner__circle,
+        isDark ? styles.dark : styles.light
+      )}></div>
     </div>
   );
 };
