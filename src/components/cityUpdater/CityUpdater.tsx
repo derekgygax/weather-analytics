@@ -60,6 +60,7 @@ export const CityUpdater = ({ weatherState, isCityWeatherLoading, setIsCityWeath
           currentCity={weatherState ? weatherState.selectedCityWeather?.city : undefined}
           searchHistory={weatherState ? weatherState.searchHistory : []}
           handleCityChange={handleCityChange}
+          className={styles.searchHistory}
         />
       </div>
       <div className={styles.messageContainer}>
