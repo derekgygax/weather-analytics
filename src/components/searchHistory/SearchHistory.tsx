@@ -8,9 +8,10 @@ interface SearchHistoryProps {
   currentCity: string | undefined;
   searchHistory: string[];
   handleCityChange: (newCity: string) => Promise<boolean>;
+  className?: string;
 }
 
-export const SearchHistory = ({ currentCity, searchHistory, handleCityChange }: SearchHistoryProps) => {
+export const SearchHistory = ({ currentCity, searchHistory, handleCityChange, className }: SearchHistoryProps) => {
 
   const selectorRef = useRef<HTMLSelectElement>(null);
   const [error, setError] = useState<boolean>(false);
@@ -37,7 +38,7 @@ export const SearchHistory = ({ currentCity, searchHistory, handleCityChange }: 
   };
 
   return (
-    <div>
+    <div className={className}>
       <h4>Search History</h4>
       <select
         ref={selectorRef}

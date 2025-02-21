@@ -70,6 +70,7 @@ export const CityUpdater = ({ weatherState, weatherDispatcher, isCityWeatherLoad
           currentCity={weatherState ? weatherState.selectedCityWeather?.city : undefined}
           searchHistory={weatherState ? weatherState.searchHistory : []}
           handleCityChange={handleCityChange}
+          className={styles.searchHistory}
         />
       </div>
       {/* <LoadingSpinner

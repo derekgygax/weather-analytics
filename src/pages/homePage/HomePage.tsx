@@ -25,37 +25,30 @@ export const HomePage = ({ weatherState, weatherDispatcher, setIsCityWeatherLoad
 
   return (
     <main className={styles.main}>
-      <PageSection>
-        {weatherState.selectedCityWeather ? (
-          <CurrentWeather
-            localCountry={weatherState.localCountry}
-            city={weatherState.selectedCityWeather.city}
-            currentWeather={weatherState.selectedCityWeather.data.current}
-          />
-        ) : (
-          // TODO MAKE THIS BETTER
-          <>
-            <h1 className={styles.noCurrent}>The Current Location Did Not Load</h1>
-            <h2 className={styles.noCurrent}>Please Search</h2>
-          </>
-        )}
-      </PageSection>
-      <PageSection>
-        {weatherState.selectedCityWeather ? (
-          <Forecast
-            weatherState={weatherState}
-            weatherDispatcher={weatherDispatcher}
-            setIsCityWeatherLoading={setIsCityWeatherLoading}
-          />
-        ) : (
-          // TODO MAKE THIS BETTER
-          <>
-            <h1 className={styles.noCurrent}>The Current Location Did Not Load</h1>
-            <h2 className={styles.noCurrent}>Please Search</h2>
-          </>
-        )}
-      </PageSection>
-
+      {weatherState.selectedCityWeather ? (
+        <>
+          <PageSection>
+            <CurrentWeather
+              localCountry={weatherState.localCountry}
+              city={weatherState.selectedCityWeather.city}
+              currentWeather={weatherState.selectedCityWeather.data.current}
+            />
+          </PageSection>
+          <PageSection>
+            <Forecast
+              weatherState={weatherState}
+              weatherDispatcher={weatherDispatcher}
+              setIsCityWeatherLoading={setIsCityWeatherLoading}
+            />
+          </PageSection>
+        </>
+      ) : (
+        // TODO MAKE THIS BETTER
+        <>
+          <h1 className={styles.noCurrent}>The Current Location Did Not Load</h1>
+          <h2 className={styles.noCurrent}>Please Search</h2>
+        </>
+      )}
     </main>
   )
 }
