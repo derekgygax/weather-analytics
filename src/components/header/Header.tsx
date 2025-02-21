@@ -1,7 +1,7 @@
 
 
 // types
-import { WeatherState } from "../../types/weatherTypes";
+import { CityWeatherType, WeatherState } from "../../types/weatherTypes";
 
 // reducer
 import { WeatherReducerAction } from "../../reducers/WeatherReducer";
@@ -20,13 +20,24 @@ interface HeaderProps {
 }
 
 export const Header = ({ weatherState, weatherDispatcher, isCityWeatherLoading, setIsCityWeatherLoading }: HeaderProps) => {
+
+  const handleNewCityWeather = (cityWeather: CityWeatherType) => {
+    weatherDispatcher({
+      type: "changeCurrentCity",
+      payload: {
+        city: cityWeather.current.name,
+        data: cityWeather
+      }
+    });
+  }
+
   return (
     <header className={styles.header}>
       <CityUpdater
         weatherState={weatherState}
-        weatherDispatcher={weatherDispatcher}
         isCityWeatherLoading={isCityWeatherLoading}
         setIsCityWeatherLoading={setIsCityWeatherLoading}
+        handleNewCityWeather={handleNewCityWeather}
       />
     </header>
   )
