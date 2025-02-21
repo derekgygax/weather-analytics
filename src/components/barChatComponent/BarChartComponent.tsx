@@ -1,5 +1,6 @@
-import React from "react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, LegendProps, TooltipProps } from "recharts";
+import React, { useState } from "react";
+import classNames from "classnames";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, TooltipProps } from "recharts";
 
 // layouts
 import { GridItem } from "../../layouts/gridItem/GridItem";
@@ -9,6 +10,7 @@ import { RainData, RainDataByCity } from "../../types/rain";
 
 // styles
 import chartStyles from '@/styles/chart.module.scss';
+import styles from './BarChartComponent.module.scss';
 
 
 const constructDataArray = (rainDataByCity: RainDataByCity) => {
@@ -36,14 +38,66 @@ const constructDataArray = (rainDataByCity: RainDataByCity) => {
 
 }
 
+const formatCityColors = (rainDataByCity: RainDataByCity): Record<string, string> => {
+  const colors = ["#00a8e8", "#ffb703", "#654ea3"];
+
+  return Object.keys(rainDataByCity).reduce((acc, city, index) => {
+    acc[city] = colors[index % colors.length]; // Cycle through colors
+    return acc;
+  }, {} as Record<string, string>);
+};
+
 interface BarChartComponentProps {
   rainDataByCity: RainDataByCity;
 }
 
 export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) => {
+
+  const [hiddenCities, setHiddenCities] = useState<string[]>([]);
+
+  const cityColors = formatCityColors(rainDataByCity);
+
   const data = constructDataArray(rainDataByCity);
 
-  // const fff = rainDataByCity[Object.keys(rainDataByCity)[0]];
+  const handleLegendClick = (e: any) => {
+    const city = e.value;
+
+    setHiddenCities((prevState) => {
+      if (prevState.includes(city)) {
+        return prevState.filter((prevCity) => prevCity !== city)
+      } else {
+        return [
+          ...prevState,
+          city
+        ]
+      }
+    })
+  };
+
+  const CustomLegend = ({ onClick }: { onClick: (entry: { value: string }) => void }) => {
+    return (
+      <ul className={chartStyles.customLegend}>
+        {Object.keys(rainDataByCity).map((city, index) => {
+          const isHidden = hiddenCities.includes(city);
+          console.log(city);
+          return (
+            <li
+              key={index}
+              className={classNames(chartStyles.customLegend__li, styles.legendCity, { [styles.hiddenLegend]: isHidden })}
+              onClick={() => onClick({ value: city })}
+              style={{ cursor: "pointer", opacity: isHidden ? 0.5 : 1 }}
+            >
+              <span
+                className={chartStyles.customLegend__li__span}
+                style={{ backgroundColor: isHidden ? "#ddd" : cityColors[city] }}
+              />
+              {city}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
 
   return (
     <GridItem title="Precipitation">
@@ -70,9 +124,12 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
           />
 
           <Tooltip content={<CustomTooltip />} />
-          <Legend content={<CustomLegend />} />
+          <Legend content={<CustomLegend onClick={handleLegendClick} />} />
 
           {Object.keys(rainDataByCity).map((city: string, index: number) => {
+            if (hiddenCities.includes(city)) {
+              return;
+            }
             return (
               <Bar
                 key={index}
@@ -109,36 +166,5 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
         )
       })}
     </div>
-  );
-};
-
-
-const CustomLegend = ({ payload }: LegendProps) => {
-  if (!payload) return null;
-
-  // Extract unique weather types from payload
-  const uniqueWeatherTypes = Array.from(
-    new Set(payload.map((entry) => entry.value))
-  );
-
-  return (
-    <ul className={chartStyles.customLegend}>
-      {uniqueWeatherTypes.map((weatherType, index) => {
-        const color = payload.find((entry) => entry.value === weatherType)
-          ?.color;
-
-        return (
-          <li key={index} className={chartStyles.customLegend__li}>
-            <span
-              className={chartStyles.customLegend__li__span}
-              style={{
-                backgroundColor: color || "#8884d8",
-              }}
-            />
-            {weatherType}
-          </li>
-        );
-      })}
-    </ul>
   );
 };
