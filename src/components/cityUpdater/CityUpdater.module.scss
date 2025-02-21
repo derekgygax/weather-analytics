@@ -11,6 +11,13 @@
   align-items: end;
   justify-content: center;
   padding-right: 7rem;
+
+  @media screen and (max-width: $small-width ) {
+    padding-right: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
 }
 
 .title {
