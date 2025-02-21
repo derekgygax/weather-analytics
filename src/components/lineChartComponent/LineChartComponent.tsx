@@ -53,7 +53,7 @@ export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineCha
                 data={tempTimeData}
                 dataKey="temperature"
                 name={city}
-                stroke={index === 2 ? "#654ea3" : index === 1 ? "#00a8e8" : "#ffb703"}
+                stroke={index === 2 ? "#654ea3" : index === 1 ? "#ffb703" : "#00a8e8"}
                 dot={true}
               />
             )

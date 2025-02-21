@@ -78,7 +78,7 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
                 key={index}
                 dataKey={city}
                 name={city}
-                fill={index === 2 ? "#654ea3" : index === 1 ? "#00a8e8" : "#ffb703"}
+                fill={index === 2 ? "#654ea3" : index === 1 ? "#ffb703" : "#00a8e8"}
               />
             );
           })}

@@ -90,22 +90,37 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   const [rainDataByCity, setRainDataByCity] = useState<RainDataByCity>({});
   const [cloudCoverageDataByCity, setCloudCoverageDataByCity] = useState<CloudCoverageDataByCity>({});
 
+  // add a new city to the graphs
   const handleNewCityWeather = (newCityWeather: CityWeatherType) => {
-    // add a new city to the graphs
     const cityCountryKey = getCountryCityKey(newCityWeather.forecast.city);
     setTempTimeDataByCity((prevState) => {
+      if (Object.values(prevState).length === 3) {
+        return {
+          ...prevState
+        };
+      }
       return {
         ...prevState,
         [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast)
       }
     });
     setRainDataByCity((prevState) => {
+      if (Object.values(prevState).length === 3) {
+        return {
+          ...prevState
+        };
+      }
       return {
         ...prevState,
         [cityCountryKey]: getRainProbabilityData(newCityWeather.forecast)
       }
     });
     setCloudCoverageDataByCity((prevState) => {
+      if (Object.values(prevState).length === 3) {
+        return {
+          ...prevState
+        };
+      }
       return {
         ...prevState,
         [cityCountryKey]: getCloudCoverageData(newCityWeather.forecast)
