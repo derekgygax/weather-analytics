@@ -13,9 +13,10 @@ interface SearchBarProps {
   className?: string;
   handleCityChange: (newCity: string) => Promise<boolean>;
   classNameSearchBarInput?: string;
+  setParentErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange, classNameSearchBarInput }: SearchBarProps) => {
+export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange, classNameSearchBarInput, setParentErrorMessage }: SearchBarProps) => {
 
   const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<boolean>(false);
@@ -49,9 +50,15 @@ export const SearchBar = ({ isCityWeatherLoading, className, handleCityChange, c
           placeholder="Enter City Name"
           onClick={() => {
             setError(false);
+            // I do not like that this is here like this
+            // BUT for now it will do
+            setParentErrorMessage("");
           }}
           onChange={() => {
             setError(false);
+            // I do not like that this is here like this
+            // BUT for now it will do
+            setParentErrorMessage("");
           }}
           required
         />

@@ -27,7 +27,7 @@ interface CityUpdaterProps {
 export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, title, className, classNameSearchBarInput }: CityUpdaterProps) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<string | null>("");
+  const [message, setMessage] = useState<string>("");
 
   const handleCityChange = async (newCity: string): Promise<boolean> => {
     setIsLoading(true);
@@ -58,6 +58,7 @@ export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, 
           className={styles.searchBar}
           handleCityChange={handleCityChange}
           classNameSearchBarInput={classNameSearchBarInput}
+          setParentErrorMessage={setMessage}
         />
         <SearchHistory
           currentCity={currentCity}
