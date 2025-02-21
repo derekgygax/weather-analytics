@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // types
-import { WeatherState, ForecastCity, ForecastWeatherType } from '../../types/weatherTypes';
+import { WeatherState, ForecastCity, ForecastWeatherType, CityWeatherType } from '../../types/weatherTypes';
 import { TempTimeByCity, TemperatureTimeData } from "../../types/temp";
 
 // utils
@@ -46,32 +46,34 @@ interface ForecastProps {
 
 export const Forecast = ({ weatherState }: ForecastProps) => {
 
-  const localCountry = weatherState.localCountry;
-  const currentCityForecast = weatherState.selectedCityWeather?.data.forecast;
+  const localCountry: string = weatherState.localCountry;
+  const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
 
   const [tempTimeDataByCity, setTempTimeDataByCity] = useState<TempTimeByCity>({});
 
-  const handleNewCityWeather = () => {
-
+  const handleNewCityWeather = (newCityWeather: CityWeatherType) => {
+    // add a new city to the graphs
+    const cityCountryKey = getCountryCityKey(newCityWeather.forecast.city);
+    setTempTimeDataByCity((prevState) => {
+      return {
+        ...prevState,
+        [cityCountryKey]: getHourlyTemperatureData(localCountry, newCityWeather.forecast)
+      }
+    })
   }
 
   useEffect(() => {
     if (!currentCityForecast) {
       return;
     }
+
     const currentCityCountryKey = getCountryCityKey(currentCityForecast.city);
 
     setTempTimeDataByCity({
       [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
     });
 
-    // This is cool because it adds cities as 
-    // you search for more. Proves it takes on more data
-    // BUTTTTT no right now
-    // setTempTimeDataByCity({
-    //   ...tempTimeDataByCity,
-    //   [currentCityCountryKey]: getHourlyTemperatureData(localCountry, currentCityForecast)
-    // })
+
   }, [localCountry, currentCityForecast]);
 
   return (
