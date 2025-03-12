@@ -85,6 +85,12 @@ interface ForecastProps {
 
 export const Forecast = ({ weatherState }: ForecastProps) => {
 
+  // TODO this is written poorly with repetition
+  // AND
+  // You have set this so NO more than 3 citites can exist on a graph
+  // at the same time. That is fine and desired BUT you need
+  // to show that is clear only handle it once
+
   const localCountry: string = weatherState.localCountry;
   const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
 

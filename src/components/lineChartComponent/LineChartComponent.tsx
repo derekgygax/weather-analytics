@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 import { useState } from "react";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, TooltipProps } from "recharts";
@@ -31,7 +31,9 @@ interface LineChartComponentProps {
 
 export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineChartComponentProps) => {
 
-  const cityColors = formatCityColors(tempTimeDataByCity);
+  const cityColors = useMemo(() => {
+    return formatCityColors(tempTimeDataByCity);
+  }, [tempTimeDataByCity]);
 
   const [hiddenCities, setHiddenCities] = useState<string[]>([]);
 
@@ -48,31 +50,6 @@ export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineCha
         ]
       }
     })
-  };
-
-
-  const CustomLegend = ({ onClick }: { onClick: (entry: { value: string }) => void }) => {
-    return (
-      <ul className={chartStyles.customLegend}>
-        {Object.keys(tempTimeDataByCity).map((city, index) => {
-          const isHidden = hiddenCities.includes(city);
-          return (
-            <li
-              key={index}
-              className={classNames(chartStyles.customLegend__li, styles.legendCity, { [styles.hiddenLegend]: isHidden })}
-              onClick={() => onClick({ value: city })}
-              style={{ cursor: "pointer", opacity: isHidden ? 0.5 : 1 }}
-            >
-              <span
-                className={chartStyles.customLegend__li__span}
-                style={{ backgroundColor: isHidden ? "#ddd" : cityColors[city] }}
-              />
-              {city}
-            </li>
-          );
-        })}
-      </ul>
-    );
   };
 
   return (
@@ -99,7 +76,16 @@ export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineCha
             }}
           />
           <Tooltip content={<CustomTooltip />} />
-          <Legend content={<CustomLegend onClick={handleLegendClick} />} />
+          <Legend
+            content={
+              <CustomLegend
+                onClick={handleLegendClick}
+                tempTimeDataByCity={tempTimeDataByCity}
+                hiddenCities={hiddenCities}
+                cityColors={cityColors}
+              />
+            }
+          />
           {/* Lines for each city */}
           {Object.entries(tempTimeDataByCity).map(([city, tempTimeData], index: number) => {
             if (hiddenCities.includes(city)) {
@@ -122,6 +108,41 @@ export const LineChartComponent = ({ tempTimeDataByCity, localCountry }: LineCha
     </GridItem>
   );
 }
+
+const CustomLegend = ({
+  onClick,
+  tempTimeDataByCity,
+  hiddenCities,
+  cityColors
+}: {
+  onClick: (entry: { value: string }) => void;
+  tempTimeDataByCity: TempTimeByCity;
+  hiddenCities: string[];
+  cityColors: Record<string, string>;
+}) => {
+  return (
+    <ul className={chartStyles.customLegend}>
+      {Object.keys(tempTimeDataByCity).map((city, index) => {
+        const isHidden = hiddenCities.includes(city);
+        return (
+          <li
+            key={index}
+            className={classNames(chartStyles.customLegend__li, styles.legendCity, { [styles.hiddenLegend]: isHidden })}
+            onClick={() => onClick({ value: city })}
+            style={{ cursor: "pointer", opacity: isHidden ? 0.5 : 1 }}
+          >
+            <span
+              className={chartStyles.customLegend__li__span}
+              style={{ backgroundColor: isHidden ? "#ddd" : cityColors[city] }}
+            />
+            {city}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
 
 const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (!active || !payload || payload.length === 0) return null;

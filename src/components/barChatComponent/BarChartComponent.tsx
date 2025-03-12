@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import classNames from "classnames";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, TooltipProps } from "recharts";
 
@@ -55,9 +55,14 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
 
   const [hiddenCities, setHiddenCities] = useState<string[]>([]);
 
-  const cityColors = formatCityColors(rainDataByCity);
+  const cityColors = useMemo(() => {
+    return formatCityColors(rainDataByCity);
+  }, [rainDataByCity]);
 
-  const data = constructDataArray(rainDataByCity);
+  const data = useMemo(() => {
+    return constructDataArray(rainDataByCity);
+  }, [rainDataByCity]);
+
 
   const handleLegendClick = (e: any) => {
     const city = e.value;
@@ -72,30 +77,6 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
         ]
       }
     })
-  };
-
-  const CustomLegend = ({ onClick }: { onClick: (entry: { value: string }) => void }) => {
-    return (
-      <ul className={chartStyles.customLegend}>
-        {Object.keys(rainDataByCity).map((city, index) => {
-          const isHidden = hiddenCities.includes(city);
-          return (
-            <li
-              key={index}
-              className={classNames(chartStyles.customLegend__li, styles.legendCity, { [styles.hiddenLegend]: isHidden })}
-              onClick={() => onClick({ value: city })}
-              style={{ cursor: "pointer", opacity: isHidden ? 0.5 : 1 }}
-            >
-              <span
-                className={chartStyles.customLegend__li__span}
-                style={{ backgroundColor: isHidden ? "#ddd" : cityColors[city] }}
-              />
-              {city}
-            </li>
-          );
-        })}
-      </ul>
-    );
   };
 
   return (
@@ -121,7 +102,14 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
           />
 
           <Tooltip content={<CustomTooltip />} />
-          <Legend content={<CustomLegend onClick={handleLegendClick} />} />
+          <Legend content={
+            <CustomLegend
+              onClick={handleLegendClick}
+              hiddenCities={hiddenCities}
+              rainDataByCity={rainDataByCity}
+              cityColors={cityColors}
+            />
+          } />
 
           {Object.keys(rainDataByCity).map((city: string, index: number) => {
             if (hiddenCities.includes(city)) {
@@ -139,6 +127,40 @@ export const BarChartComponent = ({ rainDataByCity }: BarChartComponentProps) =>
         </BarChart>
       </ResponsiveContainer>
     </GridItem>
+  );
+};
+
+const CustomLegend = ({
+  onClick,
+  rainDataByCity,
+  hiddenCities,
+  cityColors
+}: {
+  onClick: (entry: { value: string }) => void;
+  rainDataByCity: RainDataByCity;
+  hiddenCities: string[],
+  cityColors: Record<string, string>;
+}) => {
+  return (
+    <ul className={chartStyles.customLegend}>
+      {Object.keys(rainDataByCity).map((city, index) => {
+        const isHidden = hiddenCities.includes(city);
+        return (
+          <li
+            key={index}
+            className={classNames(chartStyles.customLegend__li, styles.legendCity, { [styles.hiddenLegend]: isHidden })}
+            onClick={() => onClick({ value: city })}
+            style={{ cursor: "pointer", opacity: isHidden ? 0.5 : 1 }}
+          >
+            <span
+              className={chartStyles.customLegend__li__span}
+              style={{ backgroundColor: isHidden ? "#ddd" : cityColors[city] }}
+            />
+            {city}
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 
