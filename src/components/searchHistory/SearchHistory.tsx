@@ -1,17 +1,24 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../../store/store';
+
 // styles
 import styles from './SerachHistory.module.scss';
 
 interface SearchHistoryProps {
-  currentCity: string | undefined;
-  searchHistory: string[];
   handleCityChange: (newCity: string) => Promise<boolean>;
   className?: string;
 }
 
-export const SearchHistory = ({ currentCity, searchHistory, handleCityChange, className }: SearchHistoryProps) => {
+export const SearchHistory = ({ handleCityChange, className }: SearchHistoryProps) => {
+
+  const { selectedCityWeather, searchHistory } = useSelector((state: RootState) => {
+    return state.weather;
+  });
+
 
   const selectorRef = useRef<HTMLSelectElement>(null);
   const [error, setError] = useState<boolean>(false);
@@ -22,7 +29,7 @@ export const SearchHistory = ({ currentCity, searchHistory, handleCityChange, cl
     }
 
     const citySelected = event.target.value;
-    if (citySelected === currentCity) {
+    if (citySelected === selectedCityWeather?.city) {
       return;
     }
 

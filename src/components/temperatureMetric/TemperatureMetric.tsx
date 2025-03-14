@@ -2,6 +2,9 @@
 // utils
 import { getMeteoIconUrl, getTempValueString } from "../../lib/utils";
 
+// redux
+import { RootState } from "../../store/store";
+
 // types
 import { Metric } from "../../types/commonTypes";
 import { TempHumidPressureType } from "../../types/weatherTypes";
@@ -11,6 +14,7 @@ import { WeatherDetailsBox } from "../../layouts/weatherDetailsBox/WeatherDetail
 
 // styles
 import styles from './TemperatureMetric.module.scss';
+import { useSelector } from "react-redux";
 
 const getTempMeteoIconName = (tempK: number) => {
   if (tempK <= 273) return "thermometer-colder";
@@ -28,11 +32,16 @@ const getHotRating = (tempK: number): string => {
 };
 
 interface TemperatureMetricProps {
-  localCountry: string;
   tempHumidPressureInfo: TempHumidPressureType;
 }
 
-export const TemperatureMetric = ({ localCountry, tempHumidPressureInfo }: TemperatureMetricProps) => {
+export const TemperatureMetric = ({ tempHumidPressureInfo }: TemperatureMetricProps) => {
+
+  // redux
+  const localCountry: string = useSelector((state: RootState) => {
+    return state.weather.localCountry;
+  });
+
   const humidity = tempHumidPressureInfo.humidity;
 
   const title = `${getHotRating(tempHumidPressureInfo.temp)} and ${tempHumidPressureInfo.humidity > 50 ? "Wet" : tempHumidPressureInfo.humidity > 25 ? "Moist" : "Dry"}`

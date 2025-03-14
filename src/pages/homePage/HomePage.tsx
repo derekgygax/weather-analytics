@@ -1,12 +1,12 @@
 
-// types
-import { WeatherState } from "../../types/weatherTypes";
+import { useSelector } from "react-redux";
+
+// redux
+import { RootState } from "../../store/store";
+import { WeatherState } from "../../store/weather-slice";
 
 // layouts
 import { PageSection } from "../../layouts/pageSection/PageSection";
-
-// reducer
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // components
 import { CurrentWeather } from "../../components/currentWeather/CurrentWeather";
@@ -15,29 +15,21 @@ import { Forecast } from "../../components/forecast/Forecast";
 // styles
 import styles from './HomePage.module.scss';
 
-interface HomePageProps {
-  weatherState: WeatherState;
-  weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-}
+export const HomePage = () => {
 
-export const HomePage = ({ weatherState, weatherDispatcher }: HomePageProps) => {
+  const weatherState: WeatherState = useSelector((state: RootState) => {
+    return state.weather;
+  });
 
   return (
     <main className={styles.main}>
       {weatherState.selectedCityWeather ? (
         <>
           <PageSection>
-            <CurrentWeather
-              localCountry={weatherState.localCountry}
-              city={weatherState.selectedCityWeather.city}
-              currentWeather={weatherState.selectedCityWeather.data.current}
-            />
+            <CurrentWeather />
           </PageSection>
           <PageSection>
-            <Forecast
-              weatherState={weatherState}
-              weatherDispatcher={weatherDispatcher}
-            />
+            <Forecast />
           </PageSection>
         </>
       ) : (

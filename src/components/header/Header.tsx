@@ -1,10 +1,10 @@
 import classNames from "classnames";
 
-// types
-import { CityWeatherType } from "../../types/weatherTypes";
+import { useDispatch } from "react-redux";
 
-// reducer
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
+// redux
+import { WeatherDispatch } from "../../store/store";
+import { CityWeatherType, changeSelectedCity } from "../../store/weather-slice";
 
 // components
 import { CityUpdater } from "../cityUpdater/CityUpdater";
@@ -13,30 +13,21 @@ import { CityUpdater } from "../cityUpdater/CityUpdater";
 import styles from './Header.module.scss';
 import globalStyles from "@/styles/globals.module.scss";
 
-interface HeaderProps {
-  currentCity: string | undefined;
-  searchHistory: string[]
-  weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-}
+export const Header = () => {
 
-export const Header = ({ currentCity, searchHistory, weatherDispatcher }: HeaderProps) => {
+  const weatherDispatch = useDispatch<WeatherDispatch>();
 
   const handleNewCityWeather = (cityWeather: CityWeatherType) => {
-    weatherDispatcher({
-      type: "changeCurrentCity",
-      payload: {
-        city: cityWeather.current.name,
-        data: cityWeather
-      }
-    });
+    weatherDispatch(changeSelectedCity({
+      city: cityWeather.current.name,
+      data: cityWeather
+    }));
   }
 
   return (
     <header className={styles.header}>
       <div className={classNames(globalStyles.containerFullPage, styles.cityUpdaterContainer)}>
         <CityUpdater
-          currentCity={currentCity}
-          searchHistory={searchHistory}
           handleNewCityWeather={handleNewCityWeather}
         />
       </div>

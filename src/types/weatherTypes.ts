@@ -67,19 +67,3 @@ export interface ForecastWeatherType {
     dt_txt: string;
   }[];
 }
-
-export interface CityWeatherType {
-  current: CurrentWeatherType;
-  forecast: ForecastWeatherType
-}
-
-export interface WeatherState {
-  selectedCityWeather: {
-    city: string;
-    data: CityWeatherType
-  } | undefined;
-  // searchHistory: Record<string, CityWeatherType>;
-  searchHistory: string[];
-  localCountry: string;
-}
-

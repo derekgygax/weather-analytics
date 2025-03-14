@@ -1,18 +1,19 @@
 
 import { useEffect, useState } from "react";
-
+import { useSelector } from "react-redux";
 import { Tab, Tabs, Box } from "@mui/material";
 
+// redux
+import { RootState } from "../../store/store";
+import { WeatherState, CityWeatherType } from "../../store/weather-slice";
+
 // types
-import { WeatherState, ForecastCity, ForecastWeatherType, CityWeatherType } from '../../types/weatherTypes';
+import { ForecastCity, ForecastWeatherType } from '../../types/weatherTypes';
 import { TempTimeByCity, TemperatureTimeData } from "../../types/temp";
 import { RainData, RainDataByCity } from "../../types/rain";
 
 // utils
 import { capitalizeAsTitle, getTempDataFormattedCountry } from '../../lib/utils';
-
-// reducer
-import { WeatherReducerAction } from "../../reducers/WeatherReducer";
 
 // layouts
 import { Title } from '../../layouts/title/Title';
@@ -78,12 +79,11 @@ const getCloudCoverageData = (forecast: ForecastWeatherType): CloudCoverageData[
   }));
 };
 
-interface ForecastProps {
-  weatherState: WeatherState;
-  weatherDispatcher: React.Dispatch<WeatherReducerAction>;
-}
+export const Forecast = () => {
 
-export const Forecast = ({ weatherState }: ForecastProps) => {
+  const { localCountry, selectedCityWeather } = useSelector((state: RootState) => {
+    return state.weather;
+  });
 
   // TODO this is written poorly with repetition
   // AND
@@ -91,8 +91,7 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
   // at the same time. That is fine and desired BUT you need
   // to show that is clear only handle it once
 
-  const localCountry: string = weatherState.localCountry;
-  const currentCityForecast: ForecastWeatherType | undefined = weatherState.selectedCityWeather?.data.forecast;
+  const currentCityForecast: ForecastWeatherType | undefined = selectedCityWeather?.data.forecast;
 
   const [activeTab, setActiveTab] = useState(0);
   const [currentCityCountryKey, setCurrentCityCountryKey] = useState<string>("");
@@ -217,8 +216,6 @@ export const Forecast = ({ weatherState }: ForecastProps) => {
         <CityUpdater
           title="Add Cities for Comparison"
           handleNewCityWeather={handleNewCityWeather}
-          currentCity={weatherState.selectedCityWeather?.city}
-          searchHistory={weatherState.searchHistory}
           className={styles.cityUpdater}
           classNameSearchBarInput={styles.searchBarInput}
         />

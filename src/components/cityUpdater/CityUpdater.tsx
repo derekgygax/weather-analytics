@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 
 // types
-import { CityWeatherType } from "../../types/weatherTypes";
+import { CityWeatherType } from "../../store/weather-slice";
 
 // lib
 import { getWeatherByCity } from "../../lib/weatherApi";
@@ -16,15 +16,13 @@ import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
 import styles from './CityUpdater.module.scss';
 
 interface CityUpdaterProps {
-  currentCity: string | undefined;
-  searchHistory: string[];
   handleNewCityWeather: (cityWeather: CityWeatherType) => void;
   title?: string;
   className?: string;
   classNameSearchBarInput?: string;
 }
 
-export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, title, className, classNameSearchBarInput }: CityUpdaterProps) => {
+export const CityUpdater = ({ handleNewCityWeather, title, className, classNameSearchBarInput }: CityUpdaterProps) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
@@ -61,8 +59,6 @@ export const CityUpdater = ({ currentCity, searchHistory, handleNewCityWeather, 
           setParentErrorMessage={setMessage}
         />
         <SearchHistory
-          currentCity={currentCity}
-          searchHistory={searchHistory}
           handleCityChange={handleCityChange}
           className={styles.searchHistory}
         />
